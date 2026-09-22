@@ -1,0 +1,73 @@
+Bằng chứng chạy bộ kiểm lab S1
+Ngày chạy   : 17/08/2026
+Chạy ở       : một cây làm việc sạch, tách khỏi thư mục soạn thảo
+Múi giờ      : Asia/Ho_Chi_Minh · LC_ALL=C.UTF-8 · PYTHONHASHSEED=0
+
+Bộ kiểm tách làm hai phần, và bằng chứng phải có cả hai.
+
+Phần A là bộ kiểm TỰ KIỂM CHÍNH NÓ, nằm ở kho nội bộ, không phát cho sinh viên.
+Nó chạy lược đồ của bài lên một bản mẫu đạt và một bản mẫu trượt, rồi khẳng
+định bản đạt thì qua còn bản trượt thì bị bắt. Một bộ chấm chưa bao giờ được
+thử trên một bài sai thì không ai biết nó bắt được lỗi hay không.
+
+Phần B là bộ kiểm CÔNG KHAI mà sinh viên chạy bằng `make verify`, chạy trên
+bản lời giải mẫu đặt vào đúng chỗ `docs/threat-model.json`.
+
+GHI CHÚ VỀ MỘT PHÉP TRƯỢT CÓ CHỦ Ý.
+Máy chạy lần này có docker CLI nhưng không có docker daemon, nên phép
+test_docker_daemon_chay trượt, và nó trượt ĐÚNG: đó chính là tình huống phép
+kiểm sinh ra để bắt, kèm câu hướng dẫn sinh viên phải làm gì. Mười ba phép còn
+lại của phần B xanh. Trên máy sinh viên có Docker Desktop đang chạy thì cả mười
+bốn phép đều xanh. Ràng buộc môi trường này đã ghi ở docs/DECISIONS.md mục D-005.
+
+==========================================================
+PHẦN A. Bộ kiểm nội bộ tự kiểm, lệnh: python3 -m pytest tests/ -v
+==========================================================
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: <cây-làm-việc>/labs-internal/css-lab-S01-mo-hinh-de-doa
+plugins: anyio-4.13.0
+collecting ... collected 2 items
+
+tests/test_bo_kiem_tu_kiem.py::test_ban_mau_dat_thi_khong_co_loi PASSED  [ 50%]
+tests/test_bo_kiem_tu_kiem.py::test_ban_mau_truot_thi_phai_bi_bat PASSED [100%]
+
+============================== 2 passed in 0.05s ===============================
+
+==========================================================
+PHẦN B. Bộ kiểm công khai, lệnh: make verify
+==========================================================
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: <cây-làm-việc>/labs/css-lab-S01-mo-hinh-de-doa
+plugins: anyio-4.13.0
+collecting ... collected 14 items
+
+tests/test_preflight.py::test_ghi_du_bon_muc PASSED                      [  7%]
+tests/test_preflight.py::test_python_that_su_co PASSED                   [ 14%]
+tests/test_preflight.py::test_docker_co_mat PASSED                       [ 21%]
+tests/test_preflight.py::test_docker_daemon_chay FAILED                  [ 28%]
+tests/test_threat_model.py::test_json_hop_le_theo_luoc_do PASSED         [ 35%]
+tests/test_threat_model.py::test_du_tam_moi_de_doa PASSED                [ 42%]
+tests/test_threat_model.py::test_ma_moi_de_doa_khong_trung PASSED        [ 50%]
+tests/test_threat_model.py::test_nguyen_ly_hop_le PASSED                 [ 57%]
+tests/test_threat_model.py::test_ma_attack_dung_dang PASSED              [ 64%]
+tests/test_threat_model.py::test_phat_bieu_kiem_duoc PASSED              [ 71%]
+tests/test_threat_model.py::test_chon_dung_ba_moi PASSED                 [ 78%]
+tests/test_threat_model.py::test_moi_duoc_chon_nam_trong_danh_sach PASSED [ 85%]
+tests/test_threat_model.py::test_moi_duoc_chon_co_uoc_luong_chi_phi PASSED [ 92%]
+tests/test_threat_model.py::test_ba_moi_duoc_chon_nam_trong_nhom_uu_tien PASSED [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_docker_daemon_chay ____________________________
+tests/test_preflight.py:56: in test_docker_daemon_chay
+    assert "KHONG CHAY" not in dong[0], (
+E   AssertionError: Docker đã cài nhưng daemon chưa chạy. Trên Windows và macOS thì mở ứng dụng Docker Desktop và đợi biểu tượng cá voi chuyển sang trạng thái đang chạy. Trên Linux thì chạy `sudo systemctl start docker`.
+E   assert 'KHONG CHAY' not in 'docker daemon: KHONG CHAY'
+E     
+E     'KHONG CHAY' is contained here:
+E       docker daemon: KHONG CHAY
+E     ?                ++++++++++
+=========================== short test summary info ============================
+FAILED tests/test_preflight.py::test_docker_daemon_chay - AssertionError: Doc...
+========================= 1 failed, 13 passed in 0.07s =========================

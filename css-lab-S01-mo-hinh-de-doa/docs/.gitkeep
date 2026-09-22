@@ -1,0 +1,3 @@
+Thư mục này là nơi BẠN đặt tệp threat-model.json. Lược đồ ở schema/ nói tệp
+phải có hình dạng nào; công cụ nào sinh ra nó là việc của bạn.
+Bộ chấm tìm đúng đường dẫn docs/threat-model.json.

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "he_thong": "Hệ thống Web Bán Hàng Mini",
+  "thanh_phan": [
+    {
+      "ten": "Trình duyệt người dùng (Client Browser)",
+      "vai_tro": "Giao diện hiển thị sản phẩm, gửi yêu cầu HTTP và nhận dữ liệu phản hồi từ máy chủ ứng dụng"
+    },
+    {
+      "ten": "Máy chủ ứng dụng (Web API Server)",
+      "vai_tro": "Xử lý logic nghiệp vụ, xác thực phiên người dùng và truy vấn dữ liệu từ cơ sở dữ liệu"
+    },
+    {
+      "ten": "Cơ sở dữ liệu (PostgreSQL Database)",
+      "vai_tro": "Lưu trữ thông tin người dùng, danh mục hàng hóa, đơn hàng và bảng phân quyền tài khoản"
+    }
+  ],
+  "moi_de_doa": [
+    {
+      "ma": "M01",
+      "phat_bieu": "Một kẻ tấn công thực hiện trích xuất dữ liệu thẻ thanh toán nếu máy chủ ứng dụng bị tấn công SQL Injection do không lọc đầu vào khi truy vấn.",
+      "nguyen_ly": 1,
+      "attack": "T1190",
+      "tac_dong": 5,
+      "kha_nang": 4
+    },
+    {
+      "ma": "M02",
+      "phat_bieu": "Kẻ tấn công đánh cắp phiên làm việc của khách hàng khi chèn mã độc Javascript vào phần đánh giá sản phẩm do thiếu cơ chế kiểm duyệt nội dung.",
+      "nguyen_ly": 2,
+      "attack": "T1059.007",
+      "tac_dong": 4,
+      "kha_nang": 4
+    },
+    {
+      "ma": "M03",
+      "phat_bieu": "Người dùng thông thường xem được chi tiết đơn hàng của người khác khi thay đổi trực tiếp tham số order_id trên URL do ứng dụng không kiểm tra quyền sở hữu.",
+      "nguyen_ly": 3,
+      "attack": "T1078.003",
+      "tac_dong": 4,
+      "kha_nang": 5
+    },
+    {
+      "ma": "M04",
+      "phat_bieu": "Kẻ tấn công thực hiện gửi hàng triệu yêu cầu tạo đơn hàng ảo trong trường hợp hệ thống không giới hạn tần suất gọi API khiến máy chủ bị quá tải.",
+      "nguyen_ly": 4,
+      "attack": "T1499.003",
+      "tac_dong": 4,
+      "kha_nang": 3
+    },
+    {
+      "ma": "M05",
+      "phat_bieu": "Kẻ tấn công đọc được toàn bộ mật khẩu người dùng lưu trong cơ sở dữ liệu nếu dịch vụ lưu trữ bị xâm nhập và dữ liệu chỉ được lưu dưới dạng văn bản thô.",
+      "nguyen_ly": 5,
+      "attack": "T1003.008",
+      "tac_dong": 5,
+      "kha_nang": 2
+    },
+    {
+      "ma": "M06",
+      "phat_bieu": "Người ngoài đọc được lưu lượng thanh toán trên đường truyền nếu máy chủ cho phép kết nối HTTP không mã hóa thay vì bắt buộc sử dụng giao thức HTTPS.",
+      "nguyen_ly": 6,
+      "attack": "T1040",
+      "tac_dong": 4,
+      "kha_nang": 3
+    },
+    {
+      "ma": "M07",
+      "phat_bieu": "Hệ thống bị gián đoạn và mất hoàn toàn dữ liệu đơn hàng khi máy chủ gặp sự cố vật lý do không có quy trình sao lưu định kỳ và cơ chế phục hồi thảm họa.",
+      "nguyen_ly": 7,
+      "attack": "T1490",
+      "tac_dong": 5,
+      "kha_nang": 2
+    },
+    {
+      "ma": "M08",
+      "phat_bieu": "Kẻ tấn công chiếm toàn quyền điều khiển máy chủ nếu ứng dụng cho phép tải tệp hình ảnh đại diện nhưng không xác minh phần mở rộng và nội dung thực tế.",
+      "nguyen_ly": 1,
+      "attack": "T1505.003",
+      "tac_dong": 5,
+      "kha_nang": 3
+    }
+  ],
+  "chon_xu_ly": [
+    {
+      "ma": "M01",
+      "chi_phi": 16,
+      "don_vi": "gio_cong",
+      "can_cu": "Ước lượng dựa trên thời gian rà soát toàn bộ tầng Repository và chuyển sang dùng Parameterized Queries/ORM."
+    },
+    {
+      "ma": "M03",
+      "chi_phi": 8,
+      "don_vi": "gio_cong",
+      "can_cu": "Ước lượng dựa trên thời gian viết middleware kiểm tra quyền sở hữu order_id theo user_id của phiên đăng nhập."
+    },
+    {
+      "ma": "M02",
+      "chi_phi": 12,
+      "don_vi": "gio_cong",
+      "can_cu": "Ước lượng dựa trên thời gian cấu hình Content-Security-Policy (CSP) và bổ sung thư viện DOMPurify để làm sạch đầu vào."
+    }
+  ]
+}

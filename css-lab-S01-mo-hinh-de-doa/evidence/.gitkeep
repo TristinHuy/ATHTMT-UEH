@@ -1,0 +1,8 @@
+Thư mục này bắt đầu rỗng, và nó phải rỗng.
+
+`make preflight` sinh ra evidence/S1/preflight.txt trên MÁY CỦA BẠN. Tệp ấy là
+một trong ba sản phẩm phải nộp, và nó chỉ có nghĩa khi nó nói về máy bạn sẽ dùng
+suốt tám buổi lab. Một tệp preflight phát sẵn trong bộ khung sẽ làm ba phép kiểm
+đầu xanh mà không ai chạy gì, tức là bộ chấm báo môi trường của bạn đã sẵn sàng
+trong khi chưa ai kiểm điều đó. Bản preflight của máy soạn bài nằm ở kho nội bộ,
+dùng cho việc tự kiểm bộ chấm, không dùng cho việc gì khác.

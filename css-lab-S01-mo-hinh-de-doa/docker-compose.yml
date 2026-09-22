@@ -1,0 +1,28 @@
+# Lab S1 không dựng dịch vụ nào. Tệp này tồn tại để làm đúng một việc: chứng minh
+# Docker trên máy bạn thật sự chạy được một container, trước khi các buổi sau phụ
+# thuộc vào điều đó.
+#
+# Ảnh phải ghim theo digest, không ghim theo thẻ. Một thẻ có thể trỏ sang ảnh khác
+# bất cứ lúc nào, và khi đó bài của bạn hôm nay và bài của bạn tuần sau chạy trên
+# hai thứ khác nhau mà không ai biết.
+#
+# Dòng dưới còn mang thẻ, và đó là trạng thái đã khai chứ không phải chỗ bị quên.
+# Máy soạn bài không kéo được ảnh nên không hỏi được sổ đăng ký, và một chuỗi
+# sha256 gõ tay thì trông giống hệt một chuỗi thật cho tới ngày nó làm hỏng một
+# lần dựng. Chạy `bash ghim-digest.sh --sua` trên máy có mạng để thay thẻ bằng
+# digest thật, rồi xóa dòng chú thích ngay bên dưới.
+services:
+  preflight:
+    # CHUA_GHIM_DIGEST: thẻ alpine:3.22, chờ ghim-digest.sh thay bằng digest.
+    # Mức phiên bản của thẻ cũng chưa đối chiếu với sổ đăng ký vì cùng lý do;
+    # ghim-digest.sh dừng và nói rõ nếu thẻ này không tồn tại.
+    image: alpine:3.22
+    container_name: css-s01-preflight
+    command: >
+      sh -c "echo 'container: chay duoc' && uname -m && cat /etc/alpine-release"
+    networks: [labnet]
+
+networks:
+  labnet:
+    name: css-s01-labnet
+    driver: bridge
