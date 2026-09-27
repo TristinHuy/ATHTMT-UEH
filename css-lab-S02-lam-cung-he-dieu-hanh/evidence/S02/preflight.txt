@@ -1,0 +1,7 @@
+kien truc CPU: x86_64
+he dieu hanh : Linux
+phien ban Python: Python 3.14.4
+RAM kha dung: 6753 MiB
+dia trong: 144031 MiB
+phien ban Docker: Docker version 29.7.2, build a7dcaa6
+docker daemon: chay
