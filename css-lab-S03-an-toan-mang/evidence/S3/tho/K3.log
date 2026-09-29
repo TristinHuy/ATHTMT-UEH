@@ -1,0 +1,29 @@
+lenh: docker compose run --rm -T --entrypoint sh may-khach -c "printf \"GET / HTTP/1.0\r\nHost: may-chu\r\n\r\n\" | openssl s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu -cert /pki/khach/khach.crt -key /pki/khach/khach.key -quiet -ign_eof"
+
+ Container css-lab-s03-an-toan-mang-may-khach-run-7ab6ee76e664 Creating 
+ Container css-lab-s03-an-toan-mang-may-khach-run-7ab6ee76e664 Created 
+Connecting to 172.19.0.2
+Can't use SSL_get_servername
+depth=1 CN=CA noi bo lab S03
+verify return:1
+depth=0 CN=may-chu
+verify return:1
+HTTP/1.1 200 OK
+Server: nginx/1.29.3
+Date: Tue, 29 Sep 2026 01:58:18 GMT
+Content-Type: text/html
+Content-Length: 334
+Last-Modified: Tue, 18 Aug 2026 15:56:58 GMT
+Connection: close
+ETag: "6a8480ca-14e"
+Accept-Ranges: bytes
+
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><title>Dịch vụ nội bộ, lab S3</title></head>
+<body>
+<h1>Dịch vụ nội bộ</h1>
+<p>Đây là thứ chỉ những ai chứng minh được danh tính mới được đọc.</p>
+<p>ma-phien-mau: S03-CHUOI-GIA-DE-DAY-HOC-KHONG-PHAI-BI-MAT-THAT</p>
+</body>
+</html>

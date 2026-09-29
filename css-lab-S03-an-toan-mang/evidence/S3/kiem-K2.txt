@@ -1,0 +1,10 @@
+ma: K2
+lop: 1
+mo_ta: Lop TLS, chieu am: goi bang mot ten khac phai bi tu choi, phep so ten dang chay
+lenh: docker compose run --rm -T may-khach s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu-gia -cert /pki/khach/khach.crt -key /pki/khach/khach.key -brief < /dev/null
+dau_hieu: -
+mong_doi: BI_TU_CHOI
+thuc_te: BI_TU_CHOI
+ma_thoat: 1
+nhat_ky_tho: evidence/S3/tho/K2.log
+sinh_boi: bin/ghi-ket-qua.sh

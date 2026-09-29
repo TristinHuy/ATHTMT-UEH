@@ -1,0 +1,25 @@
+lenh: docker compose run --rm -T --entrypoint sh may-khach -c "printf \"GET / HTTP/1.0\r\nHost: may-chu\r\n\r\n\" | openssl s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu -quiet -ign_eof"
+
+ Container css-lab-s03-an-toan-mang-may-khach-run-c2f890552ce8 Creating 
+ Container css-lab-s03-an-toan-mang-may-khach-run-c2f890552ce8 Created 
+Connecting to 172.19.0.2
+Can't use SSL_get_servername
+depth=1 CN=CA noi bo lab S03
+verify return:1
+depth=0 CN=may-chu
+verify return:1
+HTTP/1.1 400 Bad Request
+Server: nginx/1.29.3
+Date: Tue, 29 Sep 2026 01:58:18 GMT
+Content-Type: text/html
+Content-Length: 237
+Connection: close
+
+<html>
+<head><title>400 No required SSL certificate was sent</title></head>
+<body>
+<center><h1>400 Bad Request</h1></center>
+<center>No required SSL certificate was sent</center>
+<hr><center>nginx/1.29.3</center>
+</body>
+</html>

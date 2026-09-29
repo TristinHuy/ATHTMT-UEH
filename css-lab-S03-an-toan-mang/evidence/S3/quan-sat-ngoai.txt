@@ -1,0 +1,194 @@
+
+ Start 2026-09-29 02:00:04        -->> 172.19.0.2:8443 (may-chu) <<--
+
+ rDNS (172.19.0.2):      css-s03-may-chu.css-s03-labnet.
+
+ Service detected:       HTTP
+ may-chu:8443 appeared to support TLS 1.3 ONLY. Thus switched automagically from
+ "/home/testssl/bin/openssl.Linux.x86_64" to "/usr/bin/openssl".
+
+ Testing protocols via sockets except NPN+ALPN 
+
+ SSLv2      not offered (OK)
+ SSLv3      not offered (OK)
+ TLS 1      not offered
+ TLS 1.1    not offered
+ TLS 1.2    not offered
+ TLS 1.3    offered (OK): final
+ NPN/SPDY   There's no such thing as NPN on TLS 1.3-only hosts
+ ALPN/HTTP2 http/1.1 (offered)
+
+ Testing cipher categories 
+
+ NULL ciphers (no encryption)                      not offered (OK)
+ Anonymous NULL Ciphers (no authentication)        not offered (OK)
+ Export ciphers (w/o ADH+NULL)                     not offered (OK)
+ LOW: 64 Bit + DES, RC[2,4], MD5 (w/o export)      not offered (OK)
+ Triple DES Ciphers / IDEA                         not offered
+ Obsoleted CBC ciphers (AES, ARIA etc.)            not offered
+ Strong encryption (AEAD ciphers) with no FS       not offered
+ Forward Secrecy strong encryption (AEAD ciphers)  offered (OK)
+
+
+ Testing server's cipher preferences 
+
+Hexcode  Cipher Suite Name (OpenSSL)       KeyExch.   Encryption  Bits     Cipher Suite Name (IANA/RFC)
+-----------------------------------------------------------------------------------------------------------------------------
+SSLv2
+ - 
+SSLv3
+ - 
+TLSv1
+ - 
+TLSv1.1
+ - 
+TLSv1.2
+ - 
+TLSv1.3 (listed by strength)
+ x1302   TLS_AES_256_GCM_SHA384            ECDH/MLKEM AESGCM      256      TLS_AES_256_GCM_SHA384                             
+ x1303   TLS_CHACHA20_POLY1305_SHA256      ECDH/MLKEM ChaCha20    256      TLS_CHACHA20_POLY1305_SHA256                       
+ x1301   TLS_AES_128_GCM_SHA256            ECDH/MLKEM AESGCM      128      TLS_AES_128_GCM_SHA256                             
+
+ Has server cipher order?     no (TLS 1.3 only)
+ (limited sense as client will pick)
+
+ Testing robust forward secrecy (FS) -- omitting Null Authentication/Encryption, 3DES, RC4 
+
+ FS is offered (OK)           TLS_AES_256_GCM_SHA384
+                              TLS_CHACHA20_POLY1305_SHA256
+                              TLS_AES_128_GCM_SHA256 
+ KEMs offered                 X25519MLKEM768 
+ Elliptic curves offered:     prime256v1 secp384r1 secp521r1 X25519 X448 
+ Finite field group:          ffdhe2048 ffdhe3072
+ TLS 1.3 sig_algs offered:    ECDSA+SHA256 
+
+ Testing server defaults (Server Hello) 
+
+ TLS extensions (standard)    "server name/#0" "supported_groups/#10"
+                              "signature algorithms/#13"
+                              "supported versions/#43"
+                              "certificate authorities/#47" "key share/#51"
+ Session Ticket RFC 5077 hint no -- no lifetime advertised
+ SSL Session ID support       no
+ Session Resumption           Tickets no, ID: no
+ TLS clock skew               Random values, no fingerprinting possible 
+ Certificate Compression      none
+ Client Authentication        none
+ Signature Algorithm          ECDSA with SHA256
+ Server key size              EC 256 bits (curve P-256)
+ Server key usage             Digital Signature
+ Server extended key usage    TLS Web Server Authentication
+ Serial                       6A4032BF8635D7426B2AE878E0963FDA0D1DBF8C (OK: length 20)
+ Fingerprints                 SHA1 7562DF0938E0507D51E9E471BD705FD071A21DE3
+                              SHA256 099FF2EDB5D23475994B6335CC0B4E450F34E5D375C8B82BD58F91910D4F5D87
+ Common Name (CN)             may-chu 
+ subjectAltName (SAN)         may-chu 
+ Trust (hostname)             Ok via SAN and CN (same w/o SNI)
+ Chain of trust               NOT ok (chain incomplete)
+ EV cert (experimental)       no 
+ Certificate Validity (UTC)   364 >= 60 days (2026-09-29 01:48 --> 2027-09-29 01:48)
+ ETS/"eTLS", visibility info  not present
+ Certificate Revocation List  --
+ OCSP URI                     --
+                              NOT ok -- neither CRL nor OCSP URI provided
+ OCSP stapling                not offered
+ OCSP must staple extension   --
+ DNS CAA RR (experimental)    not offered
+ Certificate Transparency     --
+ Certificates provided        1
+ Issuer                       CA noi bo lab S03
+ Intermediate Bad OCSP (exp.) Ok
+
+
+ Testing HTTP header response @ "/" 
+
+ HTTP Status Code             400 Bad Request (Hint: better try another URL)
+ HTTP clock skew              0 sec from localtime
+ Strict Transport Security    not offered
+ Public Key Pinning           --
+ Server banner                nginx/1.29.3
+ Application banner           --
+ Cookie(s)                    (none issued at "/") -- HTTP status 400 signals you maybe missed the web application
+ Security headers             --
+ Reverse Proxy banner         --
+
+
+ Testing vulnerabilities 
+
+ Heartbleed (CVE-2014-0160)                not vulnerable (OK), no heartbeat extension
+ CCS (CVE-2014-0224)                       not vulnerable (OK)
+ Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK), no session ticket extension
+ ROBOT                                     Server does not support any cipher suites that use RSA key transport
+ Secure Renegotiation (RFC 5746)           not vulnerable (OK)
+ Secure Client-Initiated Renegotiation     not vulnerable (OK)
+ CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
+ BREACH (CVE-2013-3587)                    no gzip/deflate/compress/br HTTP compression (OK)  - only supplied "/" tested
+ POODLE, SSL (CVE-2014-3566)               not vulnerable (OK), no SSLv3 support
+ TLS_FALLBACK_SCSV (RFC 7507)              No fallback possible (OK), TLS 1.3 is the only protocol
+ SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
+ FREAK (CVE-2015-0204)                     not vulnerable (OK)
+ DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
+                                           no RSA certificate, thus certificate can't be used with SSLv2 elsewhere
+ LOGJAM (CVE-2015-4000), experimental      not vulnerable (OK): no DH EXPORT ciphers, no DH key detected with <= TLS 1.2
+ BEAST (CVE-2011-3389)                     not vulnerable (OK), no SSL3 or TLS1
+ LUCKY13 (CVE-2013-0169), experimental     not vulnerable (OK)
+ Winshock (CVE-2014-6321), experimental    not vulnerable (OK)
+ RC4 (CVE-2013-2566, CVE-2015-2808)        not vulnerable (OK)
+
+
+ Running client simulations (HTTP) via sockets 
+
+ Browser                      Protocol  Cipher Suite Name (OpenSSL)       Forward Secrecy
+------------------------------------------------------------------------------------------------
+ Android 7.0 (native)         No connection
+ Android 8.1 (native)         No connection
+ Android 9.0 (native)         TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Android 10.0 (native)        TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Android 11/12 (native)       TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Android 13/14 (native)       TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Android 15 (native)          TLSv1.3   TLS_AES_128_GCM_SHA256            X25519MLKEM768
+ Chrome 101 (Win 10)          TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Chromium 137 (Win 11)        TLSv1.3   TLS_AES_128_GCM_SHA256            X25519MLKEM768
+ Firefox 100 (Win 10)         TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Firefox 137 (Win 11)         TLSv1.3   TLS_AES_128_GCM_SHA256            X25519MLKEM768
+ IE 8 Win 7                   No connection
+ IE 11 Win 7                  No connection
+ IE 11 Win 8.1                No connection
+ IE 11 Win Phone 8.1          No connection
+ IE 11 Win 10                 No connection
+ Edge 15 Win 10               No connection
+ Edge 101 Win 10 21H2         TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Edge 133 Win 11 23H2         TLSv1.3   TLS_AES_128_GCM_SHA256            X25519MLKEM768
+ Safari 18.4 (iOS 18.4)       TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Safari 15.4 (macOS 12.3.1)   TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Safari 18.4 (macOS 15.4)     TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ Java 7u25                    No connection
+ Java 8u442 (OpenJDK)         TLSv1.3   TLS_AES_256_GCM_SHA384            253 bit ECDH (X25519)
+ Java 11.0.2 (OpenJDK)        TLSv1.3   TLS_AES_128_GCM_SHA256            256 bit ECDH (P-256)
+ Java 17.0.3 (OpenJDK)        TLSv1.3   TLS_AES_256_GCM_SHA384            253 bit ECDH (X25519)
+ Java 21.0.6 (OpenJDK)        TLSv1.3   TLS_AES_256_GCM_SHA384            253 bit ECDH (X25519)
+ go 1.17.8                    TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+ LibreSSL 3.3.6 (macOS)       TLSv1.3   TLS_CHACHA20_POLY1305_SHA256      253 bit ECDH (X25519)
+ OpenSSL 1.0.2e               No connection
+ OpenSSL 1.1.1d (Debian)      TLSv1.3   TLS_AES_256_GCM_SHA384            253 bit ECDH (X25519)
+ OpenSSL 3.0.15 (Debian)      TLSv1.3   TLS_AES_256_GCM_SHA384            253 bit ECDH (X25519)
+ OpenSSL 3.5.0 (git)          TLSv1.3   TLS_AES_256_GCM_SHA384            X25519MLKEM768
+ Apple Mail (16.0)            No connection
+ Thunderbird (91.9)           TLSv1.3   TLS_AES_128_GCM_SHA256            253 bit ECDH (X25519)
+
+
+ Rating (experimental) 
+
+ Rating specs (not complete)  SSL Labs's 'SSL Server Rating Guide' (version 2009r from 2025-05-16)
+ Specification documentation  https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide
+ Protocol Support (weighted)  100 (30)
+ Key Exchange     (weighted)  100 (30)
+ Cipher Strength  (weighted)  90 (36)
+ Final Score                  96
+ Overall Grade                B
+ Grade cap reasons            Grade capped to B. Issues with chain of trust
+                                (chain incomplete)
+
+ Done 2026-09-29 02:00:46 [  43s] -->> 172.19.0.2:8443 (may-chu) <<--
+
+

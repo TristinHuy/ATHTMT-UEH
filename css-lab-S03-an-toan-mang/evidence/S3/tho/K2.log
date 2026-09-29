@@ -1,0 +1,10 @@
+lenh: docker compose run --rm -T may-khach s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu-gia -cert /pki/khach/khach.crt -key /pki/khach/khach.key -brief < /dev/null
+
+ Container css-lab-s03-an-toan-mang-may-khach-run-a159c8f70d20 Creating 
+ Container css-lab-s03-an-toan-mang-may-khach-run-a159c8f70d20 Created 
+Connecting to 172.19.0.2
+Can't use SSL_get_servername
+depth=0 CN=may-chu
+verify error:num=62:hostname mismatch
+28BB41EA3C700000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2123:
+

@@ -1,0 +1,91 @@
+Bằng chứng chạy bộ kiểm lab S3
+Ngày chạy   : 18/08/2026
+Chạy ở       : một cây làm việc sạch, tách khỏi thư mục soạn thảo
+Múi giờ      : Asia/Ho_Chi_Minh · LC_ALL=C.UTF-8 · PYTHONHASHSEED=0
+
+Bộ kiểm tách làm hai phần, và bằng chứng phải có cả hai.
+
+Phần A là bộ kiểm TỰ KIỂM CHÍNH NÓ, nằm ở kho nội bộ, không phát cho sinh viên.
+Nó chạy CHÍNH mười sáu phép kiểm công khai, qua biến môi trường LAB_ROOT, lên
+một bản mẫu đạt và một bản mẫu trượt, rồi khẳng định ba điều. Bản đạt qua hết.
+Bản trượt bị bắt ở TỪNG phép kiểm, không sót phép nào. Hai lần chạy thu thập
+cùng một danh sách phép kiểm. Điều thứ hai là điều đáng giá nhất: một phép kiểm
+không bao giờ đỏ thì không đo gì cả, và đó cũng là câu §3.5 của giáo trình nói
+với sinh viên.
+
+Phần B là bộ kiểm CÔNG KHAI mà sinh viên chạy bằng `make verify`, chạy trên bản
+lời giải mẫu đặt vào một thư mục tạm, cộng một tệp preflight sinh THẬT trên máy
+chạy lần này.
+
+GHI CHÚ VỀ MỘT PHÉP TRƯỢT CÓ CHỦ Ý.
+Máy chạy lần này có docker CLI nhưng không có docker daemon, nên phép
+test_preflight_ghi_du_va_may_chay_duoc trượt, và nó trượt ĐÚNG: đó chính là tình
+huống phép kiểm sinh ra để bắt, kèm câu hướng dẫn sinh viên phải làm gì. Mười
+lăm phép còn lại của phần B xanh. Trên máy sinh viên có Docker Desktop đang chạy
+thì cả mười sáu phép đều xanh. Ràng buộc môi trường này đã ghi ở docs/DECISIONS.md
+mục D-005.
+
+ĐIỀU HAI PHẦN NÀY CHƯA NÓI, VÀ PHẢI NÓI THẲNG.
+Không phần nào ở đây chứng minh rằng đường mạng của bài chạy được. Bốn phép kiểm
+K1 tới K4 nối thật qua Docker, mà máy chạy lần này không có daemon, nên nhật ký
+thô trong bản mẫu đạt là chỗ dành sẵn có ghi rõ, không phải đầu ra thật. Hai
+phần trên khẳng định bộ chấm bắt đúng và bỏ qua đúng. Việc `make up`, `make
+defend`, `make bon-phep-kiem` chạy trót lọt còn chờ lần chạy CI đầu tiên trên
+máy có Docker, và trước đó phần đường mạng vẫn ở mức chưa xác minh.
+
+==========================================================
+PHẦN A. Bộ kiểm nội bộ tự kiểm, lệnh: python3 -m pytest tests/ -v
+==========================================================
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: <cây-làm-việc>/labs-internal/css-lab-S03-an-toan-mang
+plugins: anyio-4.13.0
+collecting ... collected 3 items
+
+tests/test_bo_kiem_tu_kiem.py::test_ban_mau_dat_qua_toan_bo_bo_kiem PASSED [ 33%]
+tests/test_bo_kiem_tu_kiem.py::test_ban_mau_truot_bi_bat_o_moi_phep_kiem PASSED [ 66%]
+tests/test_bo_kiem_tu_kiem.py::test_hai_ban_mau_chay_cung_mot_bo_phep_kiem PASSED [100%]
+
+============================== 3 passed in 0.95s ===============================
+
+==========================================================
+PHẦN B. Bộ kiểm công khai, lệnh: make verify
+==========================================================
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: <cây-làm-việc>/labs/css-lab-S03-an-toan-mang
+plugins: anyio-4.13.0
+collecting ... collected 16 items
+
+tests/test_bang_chung.py::test_preflight_ghi_du_va_may_chay_duoc FAILED  [  6%]
+tests/test_bang_chung.py::test_bon_phep_kiem_deu_co_ket_qua_dung_dinh_dang PASSED [ 12%]
+tests/test_bang_chung.py::test_bon_ket_qua_dung_nhu_mong_doi PASSED      [ 18%]
+tests/test_bang_chung.py::test_doan_danh_doi_co_va_dung_do_dai PASSED    [ 25%]
+tests/test_cau_hinh_nginx.py::test_chi_con_giao_thuc_hien_hanh PASSED    [ 31%]
+tests/test_cau_hinh_nginx.py::test_doi_chung_thu_khach_va_neo_vao_ca_noi_bo PASSED [ 37%]
+tests/test_cau_hinh_nginx.py::test_khong_con_cong_phang PASSED           [ 43%]
+tests/test_pham_vi_compose.py::test_moi_anh_ghim_theo_phien_ban_cu_the PASSED [ 50%]
+tests/test_pham_vi_compose.py::test_khong_mo_cong_ra_ngoai_may PASSED    [ 56%]
+tests/test_pham_vi_compose.py::test_khong_xin_dac_quyen PASSED           [ 62%]
+tests/test_pki.py::test_ca_noi_bo_dung_la_mot_ca PASSED                  [ 68%]
+tests/test_pki.py::test_chung_thu_may_chu_do_ca_noi_bo_ky_va_khop_khoa PASSED [ 75%]
+tests/test_pki.py::test_ten_tren_chung_thu_khop_ten_dich_vu PASSED       [ 81%]
+tests/test_pki.py::test_han_chung_thu_may_chu_nam_trong_khoang_cho_phep PASSED [ 87%]
+tests/test_pki.py::test_chung_thu_khach_do_ca_noi_bo_ky_va_khop_khoa PASSED [ 93%]
+tests/test_pki.py::test_ca_ngoai_that_su_la_mot_ca_khac PASSED           [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: Docker đã cài nhưng daemon chưa chạy, nên bốn phép kiểm nối mạng không chạy được. Trên Windows và macOS thì mở Docker Desktop và đợi biểu tượng cá voi chuyển sang trạng thái đang chạy. Trên Linux thì chạy `sudo systemctl start docker`.
+    assert 'docker daemon: KHONG CHAY' not in 'kien truc C...KHONG CHAY\n'
+      
+      'docker daemon: KHONG CHAY' is contained here:
+        kien truc CPU: x86_64
+        he dieu hanh : Linux
+        phien ban Python: Python 3.11.15
+        phien ban openssl: OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+        phien ban Docker: Docker version 29.4.3, build 055a478
+        docker daemon: KHONG CHAY
+<cây-làm-việc>/labs/css-lab-S03-an-toan-mang/tests/test_bang_chung.py:48: AssertionError: Docker đã cài nhưng daemon chưa chạy, nên bốn phép kiểm nối mạng không chạy được. Trên Windows và macOS thì mở Docker Desktop và đợi biểu tượng cá voi chuyển sang trạng thái đang chạy. Trên Linux thì chạy `sudo systemctl start docker`.
+=========================== short test summary info ============================
+FAILED tests/test_bang_chung.py::test_preflight_ghi_du_va_may_chay_duoc - Ass...
+========================= 1 failed, 15 passed in 0.23s =========================

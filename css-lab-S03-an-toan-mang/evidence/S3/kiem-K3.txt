@@ -1,0 +1,13 @@
+ma: K3
+lop: 2
+mo_ta: Lop mTLS, chieu duong: co trinh chung thu khach thi doc duoc noi dung
+lenh: docker compose run --rm -T --entrypoint sh may-khach -c "printf \"GET / HTTP/1.0
+Host: may-chu
+
+\" | openssl s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu -cert /pki/khach/khach.crt -key /pki/khach/khach.key -quiet -ign_eof"
+dau_hieu: 200 OK
+mong_doi: THANH_CONG
+thuc_te: THANH_CONG
+ma_thoat: 0
+nhat_ky_tho: evidence/S3/tho/K3.log
+sinh_boi: bin/ghi-ket-qua.sh

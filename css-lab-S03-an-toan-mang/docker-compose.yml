@@ -1,0 +1,66 @@
+# Lab S3. Ba ảnh, hai vai. `may-chu` phục vụ nội dung, `may-khach` là chỗ bạn đứng
+# để đo, `quan-sat` là người quan sát độc lập chỉ chạy khi được gọi.
+#
+# Không có dòng `ports:` nào trong tệp này, và đó là chủ ý. Bốn phép kiểm của bài
+# đều chạy từ trong mạng compose, nên dịch vụ không cần lộ ra máy thật. Thêm một
+# cổng chỉ để cho tiện là đúng thứ mà nguyên lý thứ tư gọi là cấu hình mặc định
+# không an toàn. Nếu bạn vẫn cần mở, chỉ được mở về 127.0.0.1, và bộ kiểm sẽ đọc
+# lại chính tệp này để xác nhận.
+#
+# VỀ VIỆC GHIM ẢNH. Luật nhà là mọi ảnh ghim theo digest, không theo thẻ, vì một
+# thẻ có thể trỏ sang ảnh khác bất cứ lúc nào và khi đó bài của bạn hôm nay và bài
+# của bạn tuần sau chạy trên hai thứ khác nhau mà không ai biết. Bản này còn ghi
+# thẻ, vì máy soạn bài không kéo được ảnh nên không có digest thật để ghi, và bịa
+# một chuỗi sha256 thì tệ hơn nhiều so với việc nói thẳng là chưa ghim. Chạy
+# `bash ghim-digest.sh` trên một máy có mạng để thay từng thẻ bằng digest thật.
+# Mức phiên bản dưới đây cũng chưa đối chiếu với registry vì lý do trên; nếu một
+# thẻ không tồn tại thì ghim-digest.sh dừng và nói rõ thẻ nào.
+services:
+
+  may-chu:
+    # CHUA_GHIM_DIGEST: thẻ nginx:1.29.3-alpine, chờ ghim-digest.sh thay bằng digest
+    image: nginx:1.29.3-alpine
+    container_name: css-s03-may-chu
+    hostname: may-chu
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./nginx/may-chu.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./pki:/pki:ro
+      - ./noi-dung:/usr/share/nginx/html:ro
+    networks: [labnet]
+
+  may-khach:
+    # CHUA_GHIM_DIGEST: thẻ alpine/openssl:3.5.4, chờ ghim-digest.sh thay bằng digest
+    image: alpine/openssl:3.5.4
+    container_name: css-s03-may-khach
+    hostname: may-khach
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./pki:/pki:ro
+      - ./evidence:/evidence
+    networks: [labnet]
+    # Vai máy khách chạy theo từng lượt đo, không chạy nền. `make up` để nguyên
+    # nó, còn từng phép kiểm gọi `docker compose run --rm may-khach ...`.
+    profiles: [cong-cu]
+
+  quan-sat:
+    # CHUA_GHIM_DIGEST: thẻ drwetter/testssl.sh:3.2, chờ ghim-digest.sh thay bằng digest
+    image: drwetter/testssl.sh:3.2
+    container_name: css-s03-quan-sat
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./evidence:/evidence
+    networks: [labnet]
+    profiles: [quan-sat]
+
+networks:
+  labnet:
+    name: css-s03-labnet
+    driver: bridge
