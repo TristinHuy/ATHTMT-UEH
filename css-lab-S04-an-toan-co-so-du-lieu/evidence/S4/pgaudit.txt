@@ -1,0 +1,8 @@
+2026-10-01 07:36:23.478 GMT [1] LOG:  pgaudit extension initialized
+2026-10-01 07:37:27.153 GMT [52] ung_dung@css_s04 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.de_nghi_chi,"SELECT id, nguoi_tao FROM de_nghi_chi WHERE nguoi_tao <> current_user",<not logged>
+2026-10-01 07:37:27.802 GMT [53] ung_dung@css_s04 LOG:  AUDIT: OBJECT,1,1,WRITE,INSERT,TABLE,public.de_nghi_chi,"INSERT INTO de_nghi_chi (id, nguoi_tao, so_tien) VALUES (901, 'nv_khac', 990000)",<not logged>
+2026-10-01 07:37:28.508 GMT [54] duyet_chi@css_s04 LOG:  AUDIT: OBJECT,1,1,WRITE,UPDATE,TABLE,public.de_nghi_chi,"UPDATE de_nghi_chi
+2026-10-01 07:37:29.191 GMT [55] chu_luoc_do@css_s04 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.de_nghi_chi,"SELECT id, nguoi_tao FROM de_nghi_chi",<not logged>
+2026-10-01 07:37:29.837 GMT [56] ung_dung@css_s04 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.de_nghi_chi,"SELECT id, so_tien FROM de_nghi_chi WHERE nguoi_tao = current_user",<not logged>
+2026-10-01 07:37:30.484 GMT [57] ung_dung@css_s04 LOG:  AUDIT: OBJECT,1,1,WRITE,INSERT,TABLE,public.de_nghi_chi,"INSERT INTO de_nghi_chi (id, nguoi_tao, so_tien) VALUES (903, current_user, 1500000)",<not logged>
+2026-10-01 07:37:31.134 GMT [58] bao_cao@css_s04 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.nhan_su,"SELECT bo_mon, so_nguoi, tong_luong FROM thong_ke_bo_mon ORDER BY bo_mon",<not logged>

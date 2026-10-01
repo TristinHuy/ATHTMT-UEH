@@ -1,0 +1,8 @@
+lenh: docker compose run --rm -T -e PGPASSWORD=lab2026 may-khach psql -h csdl -d css_s04 -v ON_ERROR_STOP=1 -U ung_dung -f /sql/kiem/A2.sql
+
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-212e9a5df6e4 Creating 
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-212e9a5df6e4 Created 
+ id | nguoi_tao 
+----+-----------
+(0 rows)
+

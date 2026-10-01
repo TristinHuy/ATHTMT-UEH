@@ -1,0 +1,7 @@
+lenh: docker compose run --rm -T -e PGPASSWORD=lab2026 may-khach psql -h csdl -d css_s04 -v ON_ERROR_STOP=1 -U duyet_chi -f /sql/kiem/A4.sql
+
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-545779aae1f1 Creating 
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-545779aae1f1 Created 
+BEGIN
+psql:/sql/kiem/A4.sql:9: ERROR:  new row for relation "de_nghi_chi" violates check constraint "nguoi_tao_khac_nguoi_duyet"
+

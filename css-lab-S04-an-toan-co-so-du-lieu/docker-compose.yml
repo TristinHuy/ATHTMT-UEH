@@ -1,0 +1,70 @@
+# Lab S4. Hai dịch vụ, hai vai. `csdl` là máy chủ PostgreSQL của riêng bạn,
+# `may-khach` là chỗ bạn đứng để gõ psql. Không có dịch vụ thứ ba, vì mọi phép
+# kiểm của bài đều là một phiên psql nối vào máy chủ ấy.
+#
+# Không có dòng `ports:` nào trong tệp này, và đó là chủ ý. Cổng 5432 mở ra máy
+# thật là cấu hình hay gặp nhất trong các sự cố cơ sở dữ liệu bị đọc trộm, và nó
+# không mua cho bài này thứ gì: tám phép kiểm đều chạy từ trong mạng compose.
+# Nếu bạn vẫn cần mở để nhìn bằng một công cụ đồ họa, chỉ được mở về 127.0.0.1,
+# và bộ kiểm sẽ đọc lại chính tệp này để xác nhận.
+#
+# VỀ VIỆC GHIM ẢNH. Luật nhà là mọi ảnh ghim theo digest, không theo thẻ, vì một
+# thẻ có thể trỏ sang ảnh khác bất cứ lúc nào và khi đó bài của bạn hôm nay và
+# bài của bạn tuần sau chạy trên hai thứ khác nhau mà không ai biết. Bản này còn
+# ghi thẻ, vì máy soạn bài không kéo được ảnh nên không có digest thật để ghi, và
+# bịa một chuỗi sha256 thì tệ hơn nhiều so với việc nói thẳng là chưa ghim. Chạy
+# `bash ghim-digest.sh` trên một máy có mạng để thay từng thẻ bằng digest thật.
+# Tập lệnh ấy ghim cả dòng FROM trong csdl/Dockerfile.
+services:
+
+  csdl:
+    # Ảnh này dựng tại chỗ vì bản chính thức không kèm pgaudit. Digest của nó
+    # không có ý nghĩa, thứ phải ghim là dòng FROM trong csdl/Dockerfile.
+    build:
+      context: ./csdl
+    image: css-s04-csdl:phien-ban-1
+    container_name: css-s04-csdl
+    hostname: csdl
+    environment:
+      # Mật khẩu lab, dùng đúng trong mạng ảo này và không dùng lại ở đâu khác.
+      # Nó nằm trong tệp compose để bài tái lập được; ngoài lớp học thì một mật
+      # khẩu nằm trong kho mã là đúng thứ buổi S8 đi tìm bằng gitleaks.
+      POSTGRES_PASSWORD: lab2026
+      POSTGRES_DB: css_s04
+      # Cố định locale và múi giờ, để thông điệp lỗi của máy chủ không đổi theo
+      # máy người học. Bộ ghi kết quả phân loại phán quyết theo thông điệp ấy.
+      LANG: C.UTF-8
+      TZ: Asia/Ho_Chi_Minh
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/pgaudit.conf
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./csdl/pgaudit.conf:/etc/postgresql/pgaudit.conf:ro
+      - ./sql:/sql:ro
+    networks: [labnet]
+
+  may-khach:
+    # CHUA_GHIM_DIGEST: thẻ postgres:17.6-bookworm, chờ ghim-digest.sh thay bằng digest
+    image: postgres:17.6-bookworm
+    container_name: css-s04-may-khach
+    hostname: may-khach
+    environment:
+      TZ: Asia/Ho_Chi_Minh
+      LC_ALL: C.UTF-8
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./sql:/sql:ro
+      - ./evidence:/evidence
+    networks: [labnet]
+    # Vai máy khách chạy theo từng lượt hỏi, không chạy nền. `make up` để nguyên
+    # nó, còn từng phép kiểm gọi `docker compose run --rm may-khach ...`.
+    profiles: [cong-cu]
+
+networks:
+  labnet:
+    name: css-s04-labnet
+    driver: bridge

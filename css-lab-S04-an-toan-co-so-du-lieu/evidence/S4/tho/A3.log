@@ -1,0 +1,7 @@
+lenh: docker compose run --rm -T -e PGPASSWORD=lab2026 may-khach psql -h csdl -d css_s04 -v ON_ERROR_STOP=1 -U ung_dung -f /sql/kiem/A3.sql
+
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-4ecfa8b807c7 Creating 
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-4ecfa8b807c7 Created 
+BEGIN
+psql:/sql/kiem/A3.sql:7: ERROR:  new row violates row-level security policy for table "de_nghi_chi"
+

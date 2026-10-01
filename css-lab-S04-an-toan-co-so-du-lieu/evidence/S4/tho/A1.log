@@ -1,0 +1,6 @@
+lenh: docker compose run --rm -T -e PGPASSWORD=lab2026 may-khach psql -h csdl -d css_s04 -v ON_ERROR_STOP=1 -U bao_cao -f /sql/kiem/A1.sql
+
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-a9b3f240b89c Creating 
+ Container css-lab-s04-an-toan-co-so-du-lieu-may-khach-run-a9b3f240b89c Created 
+psql:/sql/kiem/A1.sql:4: ERROR:  permission denied for table nhan_su
+

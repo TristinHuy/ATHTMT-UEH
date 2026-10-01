@@ -1,0 +1,26 @@
+ ho_ten |       bo_mon       | luong 
+--------+--------------------+-------
+ NV-01  | He thong thong tin |    22
+ NV-02  | He thong thong tin |    24
+ NV-03  | He thong thong tin |    26
+ NV-04  | He thong thong tin |    25
+ NV-05  | He thong thong tin |    27
+ NV-06  | He thong thong tin |    24
+ NV-07  | Khoa hoc du lieu   |    23
+ NV-08  | Khoa hoc du lieu   |    25
+ NV-09  | Khoa hoc du lieu   |    21
+ NV-10  | Khoa hoc du lieu   |    20
+ NV-11  | An toan thong tin  |    28
+ NV-12  | An toan thong tin  |    19
+(12 rows)
+
+ so_nguoi | tong_luong 
+----------+------------
+        6 |        148
+(1 row)
+
+ so_nguoi | tong_luong 
+----------+------------
+        5 |        124
+(1 row)
+

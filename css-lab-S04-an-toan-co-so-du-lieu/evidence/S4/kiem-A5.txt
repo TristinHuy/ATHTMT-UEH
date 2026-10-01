@@ -1,0 +1,10 @@
+ma: A5
+loai: am
+vai_tro: chu_luoc_do
+mo_ta: Chu so huu bang doc de nghi chi khi da bat FORCE
+lenh: docker compose run --rm -T -e PGPASSWORD=lab2026 may-khach psql -h csdl -d css_s04 -v ON_ERROR_STOP=1 -U chu_luoc_do -f /sql/kiem/A5.sql
+mong_doi: KHONG_DONG
+thuc_te: KHONG_DONG
+ma_thoat: 0
+nhat_ky_tho: evidence/S4/tho/A5.log
+sinh_boi: bin/ghi-truy-van.sh
