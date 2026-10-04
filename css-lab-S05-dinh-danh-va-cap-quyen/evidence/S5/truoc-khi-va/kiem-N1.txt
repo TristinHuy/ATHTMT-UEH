@@ -1,0 +1,7 @@
+ma: N1
+loai: am
+mo_ta: the khai thuat toan rong, tuc alg none, CWE-347
+mong_doi: BI_TU_CHOI
+thuc_te: DUOC_NHAN
+ma_http: 200
+nhat_ky_tho: evidence/S5/truoc-khi-va/tho/N1.log

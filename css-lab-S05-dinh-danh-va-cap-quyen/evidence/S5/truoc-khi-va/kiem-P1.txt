@@ -1,0 +1,7 @@
+ma: P1
+loai: duong
+mo_ta: the that, dung than khach, dung don vi cua minh
+mong_doi: DUOC_NHAN
+thuc_te: DUOC_NHAN
+ma_http: 200
+nhat_ky_tho: evidence/S5/truoc-khi-va/tho/P1.log

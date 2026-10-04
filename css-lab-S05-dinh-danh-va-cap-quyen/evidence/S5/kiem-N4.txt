@@ -1,0 +1,7 @@
+ma: N4
+loai: am
+mo_ta: the that nhung phat cho than khach khac, CWE-863
+mong_doi: BI_TU_CHOI
+thuc_te: BI_TU_CHOI
+ma_http: 401
+nhat_ky_tho: evidence/S5/tho/N4.log

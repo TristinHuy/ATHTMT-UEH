@@ -1,0 +1,14 @@
+# Bí mật TOTP của bạn KHÔNG đi vào kho.
+#
+# Đây không phải chuyện gọn gàng. Bí mật chia sẻ của TOTP nằm trong một tệp được
+# commit chính là ATT&CK v19.2 T1552.001, tức lượm thông tin đăng nhập trong tệp
+# cấu hình, và là CWE-798 nếu nó nằm trong mã nguồn. Bài lab dạy đúng điều đó ở
+# §5.5, nên bài lab không được tự vi phạm nó.
+#
+# Bằng chứng mà người chấm cần không phải bí mật, mà là nhật ký của lần đăng nhập
+# hai yếu tố thành công. Nhật ký ấy nằm trong evidence/, và nó đi vào kho.
+cau-hinh/totp-bi-mat.txt
+docker-compose.yml.truoc-khi-ghim
+dich-vu/Dockerfile.truoc-khi-ghim
+__pycache__/
+*.pyc

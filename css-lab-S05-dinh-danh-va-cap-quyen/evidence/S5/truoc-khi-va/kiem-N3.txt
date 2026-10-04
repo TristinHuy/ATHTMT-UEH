@@ -1,0 +1,7 @@
+ma: N3
+loai: am
+mo_ta: the that nhung da qua han 3600 giay, CWE-613
+mong_doi: BI_TU_CHOI
+thuc_te: CHUA_CHAY
+ma_http: -1
+nhat_ky_tho: evidence/S5/truoc-khi-va/tho/N3.log

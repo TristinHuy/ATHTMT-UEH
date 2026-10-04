@@ -1,0 +1,13 @@
+quy_tac:
+  - vai: nhan-vien
+    duong_dan: /ho-so
+    phuong_thuc: [GET]
+    chi_trong_don_vi: true
+  - vai: truong-don-vi
+    duong_dan: /ho-so
+    phuong_thuc: [GET, DELETE]
+    chi_trong_don_vi: true
+  - vai: quan-tri
+    duong_dan: /ho-so
+    phuong_thuc: [GET]
+    chi_trong_don_vi: false

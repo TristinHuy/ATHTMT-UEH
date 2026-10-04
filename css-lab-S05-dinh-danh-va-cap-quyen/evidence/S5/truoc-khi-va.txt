@@ -1,0 +1,13 @@
+ Container css-s05-may-danh-tinh Running 
+ Container css-s05-cong-cu-run-844ba3a90099 Creating 
+ Container css-s05-cong-cu-run-844ba3a90099 Created 
+P1  mong doi DUOC_NHAN     thuc te DUOC_NHAN     HTTP 200  the that, dung than khach, dung don vi cua minh
+N1  mong doi BI_TU_CHOI    thuc te DUOC_NHAN     HTTP 200  the khai thuat toan rong, tuc alg none, CWE-347
+N2  mong doi BI_TU_CHOI    thuc te DUOC_NHAN     HTTP 200  the ky bang mot khoa khac, CWE-347
+N4  mong doi BI_TU_CHOI    thuc te DUOC_NHAN     HTTP 200  the that nhung phat cho than khach khac, CWE-863
+N5  mong doi BI_TU_CHOI    thuc te DUOC_NHAN     HTTP 200  danh tinh hop le nhung xin ho so cua don vi khac, CWE-863
+N3  mong doi BI_TU_CHOI    thuc te CHUA_CHAY     HTTP -1  the that nhung da qua han 3600 giay, CWE-613
+
+N3 chua chay: hạn thẻ 3600 giây quá dài để đợi trong một buổi lab.
+Đó cũng là lý do việc 5 yêu cầu rút hạn thẻ: một hạn thẻ dài tới mức không thể đợi
+để kiểm cũng là quãng thời gian một tấm thẻ sống thêm sau khi bị thu hồi.

@@ -1,0 +1,179 @@
+{
+  "realm": "css",
+  "enabled": true,
+  "displayName": "Vùng định danh lab S5",
+  "passwordPolicy": "hashAlgorithm(argon2) and length(12)",
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "otpPolicyLookAheadWindow": 1,
+  "requiredActions": [
+    {
+      "alias": "CONFIGURE_TOTP",
+      "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP",
+      "enabled": true,
+      "defaultAction": true,
+      "priority": 10
+    },
+    {
+      "alias": "UPDATE_PASSWORD",
+      "name": "Update Password",
+      "providerId": "UPDATE_PASSWORD",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 30
+    }
+  ],
+  "bruteForceProtected": true,
+  "failureFactor": 5,
+  "waitIncrementSeconds": 60,
+  "maxDeltaTimeSeconds": 43200,
+  "accessTokenLifespan": 60,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "roles": {
+    "realm": [
+      {
+        "name": "nhan-vien",
+        "description": "Xem hồ sơ trong đơn vị của mình"
+      },
+      {
+        "name": "truong-don-vi",
+        "description": "Xem và sửa hồ sơ trong đơn vị của mình"
+      },
+      {
+        "name": "quan-tri",
+        "description": "Xem hồ sơ mọi đơn vị"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "dich-vu-ho-so",
+      "name": "Dịch vụ hồ sơ",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://127.0.0.1:8080/callback"
+      ],
+      "webOrigins": [
+        "http://127.0.0.1:8080"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "protocolMappers": [
+        {
+          "name": "nguoi-nhan",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "dich-vu-ho-so",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "name": "don-vi",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "don_vi",
+            "claim.name": "don_vi",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "dich-vu-bao-cao",
+      "name": "Dịch vụ báo cáo, thân khách thứ hai của cùng vùng định danh",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://127.0.0.1:8080/khong-dung"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "an-nv",
+      "enabled": true,
+      "firstName": "An",
+      "lastName": "Nguyen",
+      "email": "an-nv@vi-du.lab",
+      "attributes": {
+        "don_vi": [
+          "khoa-ktkt"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "mat-khau-lab-an",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "nhan-vien"
+      ]
+    },
+    {
+      "username": "binh-nv",
+      "enabled": true,
+      "firstName": "Binh",
+      "lastName": "Tran",
+      "email": "binh-nv@vi-du.lab",
+      "attributes": {
+        "don_vi": [
+          "khoa-ktqt"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "mat-khau-lab-binh",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "nhan-vien"
+      ]
+    },
+    {
+      "username": "chi-tdv",
+      "enabled": true,
+      "firstName": "Chi",
+      "lastName": "Le",
+      "email": "chi-tdv@vi-du.lab",
+      "attributes": {
+        "don_vi": [
+          "khoa-ktkt"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "mat-khau-lab-chi",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "truong-don-vi"
+      ]
+    }
+  ]
+}

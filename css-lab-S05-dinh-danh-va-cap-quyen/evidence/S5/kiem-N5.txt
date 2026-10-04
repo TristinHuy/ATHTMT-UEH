@@ -1,0 +1,7 @@
+ma: N5
+loai: am
+mo_ta: danh tinh hop le nhung xin ho so cua don vi khac, CWE-863
+mong_doi: BI_TU_CHOI
+thuc_te: BI_TU_CHOI
+ma_http: 403
+nhat_ky_tho: evidence/S5/tho/N5.log

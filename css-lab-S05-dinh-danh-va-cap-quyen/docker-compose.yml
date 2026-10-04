@@ -1,0 +1,111 @@
+# Lab S5. Trạng thái KHỞI ĐẦU của vùng định danh, cố ý đặt rộng tay.
+#
+# Ba dịch vụ, không hơn. Trần bốn container cho mỗi lab là ràng buộc thiết kế của
+# học phần, ghi ở ADR-0003 mục N3, và bộ chấm đọc chính tệp này để cưỡng chế nó.
+# Thêm một container thứ năm cho tiện là cách nhanh nhất để bài không chạy nổi
+# trên máy của bạn cùng lớp.
+#
+# Hai ràng buộc dưới đây do phạm vi cho phép đặt ra, không phải do bài tập đặt
+# ra: cổng chỉ được ánh xạ về 127.0.0.1, và không dịch vụ nào được dùng
+# privileged, network_mode host, hay cap_add. Lý do nằm ở SCOPE.md.
+#
+# VỀ VIỆC GHIM ẢNH. Luật nhà là mọi ảnh ghim theo digest, không theo thẻ, vì một
+# thẻ có thể trỏ sang ảnh khác bất cứ lúc nào và khi đó bài của bạn hôm nay và
+# bài bộ chấm chạy tuần sau đứng trên hai ảnh khác nhau mà không ai biết. Bản
+# này còn ghi thẻ, vì máy soạn bài không kéo được ảnh nên không có digest thật để
+# ghi, và bịa một chuỗi sha256 thì tệ hơn nhiều so với nói thẳng là chưa ghim.
+# Mức phiên bản dưới đây cũng chưa đối chiếu với sổ đăng ký vì cùng lý do; nếu
+# một thẻ không tồn tại thì ghim-digest.sh dừng và nói rõ thẻ nào.
+name: css-s05
+
+services:
+
+  # Máy chủ danh tính. Đây là thứ phát ra tấm thẻ ở mục 5.1 của giáo trình.
+  may-danh-tinh:
+    # CHUA_GHIM_DIGEST: thẻ quay.io/keycloak/keycloak:26.4.0, chờ ghim-digest.sh thay bằng digest
+    image: quay.io/keycloak/keycloak:26.4.0
+    container_name: css-s05-may-danh-tinh
+    hostname: may-danh-tinh
+    command: ["start-dev", "--import-realm"]
+    environment:
+      # Tài khoản quản trị đầu tiên. Nó nằm lộ thiên trong tệp này, và đó là
+      # CWE-798 đúng nghĩa. Ở lab thì chấp nhận được vì vùng định danh này không
+      # bảo vệ gì thật; ngoài lớp học thì không. Buổi S8 dựng lại đúng chỗ này
+      # bằng một kho bí mật, và ADR-0003 dời phần ấy sang đó để S5 khỏi vượt trần
+      # bốn container.
+      KC_BOOTSTRAP_ADMIN_USERNAME: quan-tri
+      KC_BOOTSTRAP_ADMIN_PASSWORD: doi-truoc-khi-nop
+      KC_HTTP_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
+      # === CHỖ LÀM VIỆC CỦA BẠN, việc 4 ===
+      KC_SPI_PASSWORD_HASHING_ARGON2_MEMORY: 65536
+      KC_SPI_PASSWORD_HASHING_ARGON2_ITERATIONS: 3
+      KC_SPI_PASSWORD_HASHING_ARGON2_PARALLELISM: 4
+      # Ba tham số của hàm băm mật khẩu đặt ở đây, không đặt trong tệp vùng định
+      # danh, vì chúng là tùy chọn của máy chủ chứ không phải thuộc tính của vùng.
+      # Tên biến, đơn vị của từng tham số, và giá trị mặc định nằm trong tài liệu
+      # Keycloak; tra đúng tên là một phần của bài. Đo trước khi chọn số.
+      # === HẾT CHỖ LÀM VIỆC ===
+    volumes:
+      - ./cau-hinh:/opt/keycloak/data/import:ro
+    ports:
+      # Cổng này mở về 127.0.0.1 vì bạn cần một trình duyệt để ghi danh yếu tố
+      # thứ hai, và vì luồng mã ủy quyền chạy qua trình duyệt. Không đổi sang
+      # 0.0.0.0: khi ấy vùng định danh của bạn nghe trên mọi giao diện mạng của
+      # máy, kể cả mạng Wi-Fi của quán cà phê.
+      - "127.0.0.1:8080:8080"
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+  # Dịch vụ tài nguyên. Nó không biết mật khẩu của ai, nó chỉ nhận thẻ và quyết
+  # định. Toàn bộ phần bạn viết nằm ở dich-vu/kiem_the.py, được gắn vào theo dạng
+  # chỉ đọc nên sửa xong chỉ cần khởi động lại, không cần dựng lại ảnh.
+  dich-vu:
+    build: ./dich-vu
+    # CHUA_GHIM_DIGEST: thẻ dưới đây đặt tên cho ảnh dựng tại chỗ từ ./dich-vu,
+    # nên digest thật của nó chỉ tồn tại sau khi bạn dựng. Ảnh nền cần ghim nằm ở
+    # dòng FROM trong dich-vu/Dockerfile. Chạy ghim-digest.sh trên máy có mạng.
+    image: css-s05-dich-vu:v1
+    container_name: css-s05-dich-vu
+    hostname: dich-vu
+    depends_on: [may-danh-tinh]
+    environment:
+      CSS_NGUOI_NHAN: dich-vu-ho-so
+      CSS_BEN_PHAT_HANH: http://may-danh-tinh:8080/realms/css
+      CSS_CHINH_SACH: /etc/css-s05/chinh-sach.yaml
+    volumes:
+      - ./cau-hinh:/etc/css-s05:ro
+      - ./dich-vu:/usr/local/lib/css-s05:ro
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks: [labnet]
+
+  # Chỗ bạn đứng để đo. Dùng lại đúng ảnh của dịch vụ, nên nó không thêm ảnh nào
+  # phải tải về. Nó nằm ngoài profile mặc định, tức `make up` không kéo nó lên;
+  # từng phép kiểm gọi `docker compose run --rm cong-cu ...` rồi bỏ.
+  cong-cu:
+    profiles: [cong-cu]
+    build: ./dich-vu
+    # CHUA_GHIM_DIGEST: cùng ảnh dựng tại chỗ với dịch vụ, xem ghi chú ở trên.
+    image: css-s05-dich-vu:v1
+    container_name: css-s05-cong-cu
+    depends_on: [may-danh-tinh]
+    environment:
+      CSS_NGUOI_NHAN: dich-vu-ho-so
+      CSS_BEN_PHAT_HANH: http://may-danh-tinh:8080/realms/css
+    volumes:
+      - ./bin:/lab/bin:ro
+      - ./cau-hinh:/etc/css-s05:ro
+      - ./evidence:/lab/evidence
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+networks:
+  labnet:
+    name: css-s05-labnet
+    driver: bridge

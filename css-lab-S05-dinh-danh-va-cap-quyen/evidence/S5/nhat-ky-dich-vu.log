@@ -1,0 +1,6 @@
+2026-10-04T08:44:08+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=hop_le ket_qua=cho_qua ma_http=200 chu_the=an-nv duong_dan=/ho-so phuong_thuc=GET don_vi=khoa-ktkt
+2026-10-04T08:44:08+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=thuat_toan ket_qua=tu_choi ma_http=401 chu_the_tu_khai=an-nv duong_dan=/ho-so thong_bao=thuat_toan_khong_hop_le (CWE-347): The specified alg value is not allowed
+2026-10-04T08:44:08+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=chu_ky_hoac_khac ket_qua=tu_choi ma_http=401 chu_the_tu_khai=an-nv duong_dan=/ho-so thong_bao=the_hong_hoac_chu_ky_sai (CWE-347): Signature verification failed
+2026-10-04T08:44:08+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=nguoi_nhan ket_qua=tu_choi ma_http=401 chu_the_tu_khai=an-nv duong_dan=/ho-so thong_bao=the_hong_hoac_chu_ky_sai (CWE-347): Token is missing the "aud" claim
+2026-10-04T08:44:08+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=chinh_sach ket_qua=tu_choi ma_http=403 chu_the=an-nv duong_dan=/ho-so phuong_thuc=GET don_vi=khoa-ktqt
+2026-10-04T08:45:13+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=qua_han ket_qua=tu_choi ma_http=401 chu_the_tu_khai=an-nv duong_dan=/ho-so thong_bao=qua_han: Signature has expired
