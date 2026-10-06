@@ -1,0 +1,4 @@
+# Ứng dụng thử nghiệm chỉ cần một thư viện ngoài. Ghim theo phiên bản chính xác,
+# trùng với tests/yeu-cau.txt, để thứ chạy trong container và thứ bộ chấm chạy
+# trên máy bạn phân giải cùng một tệp cấu hình theo cùng một cách.
+PyYAML==6.0.3

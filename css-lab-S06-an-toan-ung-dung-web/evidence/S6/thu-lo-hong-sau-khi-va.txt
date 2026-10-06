@@ -1,0 +1,13 @@
+nhan: sau-khi-va
+dia_chi: http://127.0.0.1:8081
+lh1_ma_http: 200
+lh1_chuoi_con_nguyen_van: KHONG
+lh1_dang_da_ma_hoa: CO
+csp_tieu_de: Content-Security-Policy
+csp_gia_tri: script-src 'self' 'nonce-_ts6nMRwBOn9EYzFwLwucw'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; report-uri /thu/bao-cao-csp
+cookie: css_s06_phien=336d8633a782530fbcfdcf96befc2450; Path=/; HttpOnly; SameSite=Lax
+cookie_httponly: CO
+cookie_samesite: CO
+lh2_goc_hop_le_khong_the: BI_TU_CHOI (ma 403)
+lh2_goc_la_co_the: BI_TU_CHOI (ma 403)
+lh2_tra_loi_cuoi: {"phan_quyet": "TU_CHOI", "ly_do": "origin-khong-thuoc-danh-sach-cho-phep: http://trang-cua-ke-tan-cong.example"}

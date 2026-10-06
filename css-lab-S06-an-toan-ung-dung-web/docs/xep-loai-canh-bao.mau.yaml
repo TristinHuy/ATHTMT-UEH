@@ -1,0 +1,56 @@
+# Bảng xếp loại cảnh báo, KHUÔN MẪU. Chép thành docs/xep-loai-canh-bao.yaml rồi điền.
+#
+# Bảng này trả lời câu hỏi ở mục 6.5 của giáo trình bằng số đo của chính bạn, chứ
+# không bằng con số minh họa in trong sách. Gọi p là tỉ lệ cảnh báo dẫn tới một
+# thay đổi thật và t là số phút phân loại một cảnh báo, thì công sức cho mỗi thay
+# đổi thật là t chia p phút. Bạn đo p ở đây; bạn chọn t từ đồng hồ của chính mình
+# khi ngồi xếp loại; và đoạn văn cuối bài đứng trên hai con số ấy.
+#
+# Nguồn của bảng là lần quét nền ứng dụng HUẤN LUYỆN, không phải ứng dụng thử
+# nghiệm. Ứng dụng thử nghiệm quá nhỏ để việc xếp loại thành việc thật; ứng dụng
+# huấn luyện do OWASP phát hành có bề mặt đủ rộng để bạn gặp cả ba nhóm.
+#
+# Bộ chấm đọc chính tệp này và tính lại p từ những dòng bạn điền. Nó không đọc lời
+# khai của bạn về tệp này.
+
+nguon_quet: evidence/S6/quet-muc-tieu.json
+
+# ---------------------------------------------------------------------------
+# Mã chuẩn của hai lỗ hổng được chỉ định. Ba trường, ba câu hỏi khác nhau.
+#
+# Ô dễ sai nhất là hạng OWASP của LH-1. Hạng chứa CWE-79 trong danh sách ánh xạ
+# của bảng 2025 không phải hạng bạn đoán ra từ tên gọi; mở bảng đối chiếu của buổi
+# ra đọc, đừng chọn theo cảm giác chủ đề. Ô của LH-2 có thêm một mã riêng cho nửa
+# thứ nhất của biện pháp, tức thuộc tính SameSite của cookie.
+hai_lo_hong:
+  - ma: LH-1
+    ten: phản chiếu chuỗi người dùng vào thân trang mà chưa mã hóa theo ngữ cảnh
+    ma_cwe:
+    hang_owasp:
+  - ma: LH-2
+    ten: trang khác ra lệnh đổi địa chỉ nhân danh người đang đăng nhập
+    ma_cwe:
+    hang_owasp:
+    ma_cwe_nua_samesite:
+
+# ---------------------------------------------------------------------------
+# Mỗi cảnh báo trong báo cáo một dòng. Không bỏ dòng nào: mẫu số của p là TỔNG số
+# cảnh báo, nên bỏ bớt những dòng khó xếp làm p đẹp lên một cách giả tạo.
+#
+# Ba nhóm, và ranh giới giữa chúng là nội dung của bài chứ không phải thủ tục.
+#   sua_bang_cau_hinh          đổi một tiêu đề, một thuộc tính, một tùy chọn máy chủ
+#   sua_bang_ma                phải sửa mã nguồn mới đóng được
+#   khong_phai_canh_bao_that   bộ quét nhận nhầm, hoặc đúng nhưng không áp dụng ở đây
+#
+# Nhóm thứ ba tốn kém nhất khi xếp sai, vì một cảnh báo thật bị đẩy vào đó thì
+# không ai quay lại nhìn nó nữa. Bộ chấm vì thế đòi ghi chú từ tám từ trở lên cho
+# mỗi dòng thuộc nhóm này, và người chấm đọc chính những dòng ấy trước tiên.
+tong_canh_bao:
+canh_bao:
+  - ma:            # mã cảnh báo do bộ quét đặt
+    ten:           # tên cảnh báo, chép nguyên văn từ báo cáo
+    xep_loai:      # sua_bang_cau_hinh | sua_bang_ma | khong_phai_canh_bao_that
+    ghi_chu:       # vì sao bạn xếp nó vào nhóm ấy
+
+# Tỉ lệ p: hai nhóm đầu chia cho tổng số cảnh báo. Ghi dạng số thập phân, ví dụ 0.62.
+ty_le_p:

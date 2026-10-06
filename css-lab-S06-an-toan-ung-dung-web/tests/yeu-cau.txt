@@ -1,0 +1,12 @@
+# Thư viện bộ kiểm công khai của lab S6 cần. Cài một lần:
+#   pip install -r tests/yeu-cau.txt
+#
+# Hai phiên bản này là bản có thật, đối chiếu trên môi trường soạn bài ngày
+# 18/08/2026. PyYAML trùng với ung-dung/requirements.txt, để tệp chính sách được
+# phân giải theo cùng một cách ở hai nơi: trong container khi ứng dụng chạy, và
+# trên máy bạn khi bộ chấm dựng ứng dụng lên để đo.
+#
+# Bộ kiểm KHÔNG cần Docker. Bảy phép kiểm nhóm lỗ hổng và nhóm chính sách nội dung
+# tự dựng ứng dụng của bạn trên một cổng tạm của 127.0.0.1 rồi gọi bằng HTTP thật.
+pytest==9.1.1
+PyYAML==6.0.3

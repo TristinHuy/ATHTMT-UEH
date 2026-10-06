@@ -1,0 +1,27 @@
+# Bộ luật semgrep của lab S6.
+#
+# Một luật, và chỉ một. Bộ luật càng dài thì càng dễ đạt điểm mà không hiểu gì,
+# vì bạn sẽ sửa cho luật im tiếng chứ không sửa cho lỗ hổng đóng lại. Luật dưới
+# đây nhắm đúng lỗ hổng LH-1 và không nhắm thứ gì khác.
+#
+# Đọc luật trước khi chạy nó. Nó nói: gọi html_tim_kiem với một đối số bất kỳ là
+# một phát hiện, TRỪ khi đối số ấy đã đi qua html.escape. Đó là toàn bộ hiểu
+# biết của semgrep về bài này, và nó hẹp đúng như mục 6.5 giáo trình mô tả:
+# semgrep chỉ thấy khuôn đã có người viết thành luật. Nó sẽ im lặng trước một
+# cách ghép chuỗi khác mà bạn tự nghĩ ra, kể cả khi cách ấy vẫn hở. Im lặng của
+# một công cụ không phải là bằng chứng về sự vắng mặt của lỗi.
+rules:
+  - id: css-s06-phan-chieu-chua-thoat
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Chuỗi do người gửi yêu cầu điều khiển đang được ghép vào thân HTML mà chưa
+      mã hóa theo ngữ cảnh, tức CWE-79. Mã hóa tại chỗ ghép, bằng html.escape,
+      chứ không bằng một bộ lọc danh sách đen.
+    metadata:
+      cwe: "CWE-79: Improper Neutralization of Input During Web Page Generation"
+      lo_hong: LH-1
+      tham_chieu: core/syllabus/mapping/S06-mapping.yaml, khối cwe
+    patterns:
+      - pattern: html_tim_kiem($X)
+      - pattern-not: html_tim_kiem(html.escape(...))

@@ -1,0 +1,5 @@
+Từ kết quả quét nền, có 13 cảnh báo: 4 sửa bằng cấu hình, 2 sửa bằng mã và 7 không phải cảnh báo thật. Em dành khoảng 24 phút rà soát, nên t ≈ 24/13 = 1,85 phút mỗi cảnh báo. Tỉ lệ dẫn tới thay đổi thật là p = 6/13 ≈ 0,4615; do đó t/p ≈ 1,85/0,4615 = 4 phút cho mỗi thay đổi thật.
+
+Nhóm em dễ phân vân nhất là rò rỉ thông tin và timestamp disclosure: tên gọi dễ khiến em xếp cả hai thành vấn đề cấu hình. Evidence cho thấy timestamp ở trang gốc, sitemap.xml và styles.css; bình luận bị bắt là liên kết OWASP và chuỗi SVG, không phải bí mật. Em đối chiếu các instance thay vì quyết định theo tên cảnh báo.
+
+Em chọn SameSite=Lax vì chặn cookie trong phần lớn yêu cầu POST liên trang nhưng vẫn cho phép điều hướng cấp cao an toàn từ liên kết ngoài; Strict chặt hơn nhưng có thể làm gián đoạn luồng người dùng đến từ trang khác. Nếu có một giờ mỗi tuần, em sẽ rà soát evidence và tạo ngoại lệ hẹp, có lý do, cho cảnh báo đã xác minh là không áp dụng thay vì tắt cả nhóm luật. Cách này giảm nhiễu mà vẫn giữ khả năng phát hiện vấn đề mới.

@@ -1,0 +1,14 @@
+# Báo cáo dạng HTML của bộ quét nền không đi vào kho.
+#
+# Đây không phải chuyện gọn gàng. Bản HTML của một lần quét nhúng nguyên văn phần
+# thân của những phản hồi mà bộ quét nhận được, gồm cả cookie phiên trong tiêu đề
+# và cả chuỗi bạn đã gửi thử. Bản JSON đủ cho việc chấm và không mang phần ấy, nên
+# bài nộp lấy bản JSON. Người chấm cần bằng chứng, không cần dấu vết phiên của bạn.
+evidence/S6/*.html
+
+# Bản sao mà ghim-digest.sh giữ lại trước khi sửa.
+*.bak
+
+__pycache__/
+*.pyc
+.pytest_cache/

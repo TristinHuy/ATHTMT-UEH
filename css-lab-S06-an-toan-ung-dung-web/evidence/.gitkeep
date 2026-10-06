@@ -1,0 +1,11 @@
+Thư mục này bắt đầu rỗng, và nó phải rỗng.
+
+`make preflight` sinh ra evidence/S6/preflight.txt trên MÁY CỦA BẠN, và mười ba
+tệp bằng chứng còn lại đều là kết xuất của những lệnh bạn chạy. Một tệp phát sẵn
+trong bộ khung sẽ làm phép kiểm tương ứng xanh mà chưa ai chạy gì, tức bộ chấm
+báo an toàn cho một máy chưa ai kiểm. Bản bằng chứng của máy soạn bài nằm ở kho
+nội bộ, dùng cho việc tự kiểm bộ chấm, không dùng cho việc gì khác.
+
+Thư mục này cũng là nơi bộ quét ghi báo cáo qua một volume. Bộ quét chạy dưới một
+người dùng khác bạn, nên `make preflight` nới quyền ghi cho thư mục một lần và
+nói ra vì sao.

@@ -1,0 +1,92 @@
+# Chính sách của ứng dụng thử nghiệm, lab S6. TRẠNG THÁI KHỞI ĐẦU.
+#
+# Ba trong bốn chỗ làm việc của bài nằm trong tệp này. Chúng nằm ở đây chứ không
+# nằm trong mã vì một lý do bạn sẽ gặp lại suốt đời nghề: ba biện pháp dưới đây
+# là QUYẾT ĐỊNH VẬN HÀNH, không phải logic nghiệp vụ. Ai đổi chúng, đổi lúc nào,
+# và đổi vì lý do gì là thứ phải đọc được mà không cần mở mã nguồn ra đọc.
+#
+# Bộ chấm đọc chính tệp này. Nó không đọc lời khai của bạn về tệp này.
+
+# --------------------------------------------------------------------------
+# Chính sách an toàn nội dung. Đây là LỚP CHẶN của tiêu đề bài.
+#
+# Trạng thái khởi đầu: không khai chỉ thị nào, nên ứng dụng không gửi tiêu đề
+# nào, nên trình duyệt cho chạy mọi đoạn mã có mặt trong trang. Đó chính là
+# trạng thái mà lỗ hổng LH-1 cần để trở thành một lỗ hổng có hậu quả.
+csp:
+  # Hai giá trị hợp lệ: bao-cao và cuong-che.
+  #
+  # Đọc kỹ trước khi chọn. `bao-cao` sinh tiêu đề Content-Security-Policy-Report-Only:
+  # trình duyệt KHÔNG chặn gì, nó chỉ gửi báo cáo từng vi phạm về điểm nhận bên
+  # dưới. `cuong-che` sinh tiêu đề Content-Security-Policy và bắt đầu chặn thật.
+  #
+  # Việc 3 của đề bắt bạn đi qua CẢ HAI theo đúng thứ tự đó, chứ không nhảy
+  # thẳng tới cưỡng chế. Lý do nằm ở mục 6.4 giáo trình: bật cưỡng chế lên một
+  # trang đang chạy thì trang gãy ngay, và cái gãy ấy rơi vào người dùng chứ
+  # không rơi vào bạn. Cần gạt này có hai đầu; thu báo cáo càng lâu thì càng ít
+  # gãy mà cửa càng mở lâu, và chọn điểm dừng là việc của bạn chứ không phải của
+  # một giá trị mặc định.
+  che_do: cuong-che
+
+  # === CHỖ LÀM VIỆC CỦA BẠN, việc 2: lớp chặn cho LH-1 ===
+  # Khai các chỉ thị của chính sách ở đây, dạng `tên: giá trị`. Chuỗi `{nonce}`
+  # trong một giá trị sẽ được thay bằng số dùng một lần của chính lần tải trang
+  # đó, do ứng dụng sinh.
+  #
+  # Bốn câu hỏi phải trả lời được trước khi gõ, vì bộ chấm hỏi lại đúng bốn câu
+  # ấy. Nguồn mã nào được chạy? Trang này có cần đối tượng nhúng không? Địa chỉ
+  # cơ sở của tài liệu có được phép đổi không? Trang này có được phép nằm trong
+  # khung của trang khác không?
+  chi_thi:
+    script-src: "'self' 'nonce-{nonce}'"
+    object-src: "'none'"
+    base-uri: "'self'"
+    frame-ancestors: "'none'"
+  # === HẾT CHỖ LÀM VIỆC ===
+
+  # Điểm nhận báo cáo vi phạm. Ứng dụng ghi mỗi báo cáo thành một dòng vào
+  # /tmp/bao-cao-csp.jsonl bên trong container.
+  diem_nhan_bao_cao: /thu/bao-cao-csp
+
+# --------------------------------------------------------------------------
+# Cookie phiên. Đây là NỬA THỨ NHẤT của biện pháp cho lỗ hổng LH-2.
+cookie_phien:
+  ten: css_s06_phien
+
+  # === CHỖ LÀM VIỆC CỦA BẠN, việc 4a: nửa thứ nhất của LH-2 ===
+  # Trạng thái khởi đầu để trống cả hai thuộc tính, nên trình duyệt tự đính
+  # cookie này vào mọi yêu cầu gửi tới ứng dụng, kể cả yêu cầu do một trang khác
+  # khởi xướng, và mọi đoạn kịch bản trong trang đọc được nó.
+  #
+  # samesite nhận Strict, Lax, hoặc None. Chọn mức nào là một đánh đổi thật, và
+  # bạn phải viết đánh đổi ấy ra trong docs/danh-doi.md chứ không chỉ gõ một từ
+  # vào đây.
+  samesite: Lax
+  httponly: true
+  # === HẾT CHỖ LÀM VIỆC ===
+
+  # Giữ false cho tới hết buổi. Lab chạy trên http qua 127.0.0.1, nên đặt Secure
+  # sẽ làm trình duyệt bỏ cookie và bạn sẽ đi tìm một lỗi không có thật. Ngoài
+  # lớp học thì ngược lại: mọi cookie phiên đều phải có Secure, và chỗ này là
+  # một ngoại lệ của phòng thí nghiệm, không phải một mặc định đáng chép đi.
+  secure: false
+
+# --------------------------------------------------------------------------
+# Đối chiếu phía máy chủ. Đây là NỬA THỨ HAI của biện pháp cho lỗ hổng LH-2.
+#
+# Mục 6.4 giáo trình đặt một câu hỏi mà bạn nên đọc lại trước khi sửa khối này:
+# một mặc định an toàn nằm trong phần mềm mà bạn không phát hành thì có phải là
+# biện pháp của bạn không? Thuộc tính SameSite ở trên do trình duyệt áp. Khối
+# này do máy chủ của bạn áp. Đó là lý do đề bắt làm cả hai.
+chong_gia_mao:
+  # === CHỖ LÀM VIỆC CỦA BẠN, việc 4b: nửa thứ hai của LH-2 ===
+  kiem_origin: true
+  the_chong_gia_mao: true
+  # === HẾT CHỖ LÀM VIỆC ===
+
+  # Danh sách gốc được phép gửi yêu cầu đổi trạng thái. Giữ nguyên: đây là địa
+  # chỉ mà chính ứng dụng của bạn phục vụ, và không có gốc nào khác hợp lệ trong
+  # phạm vi của bài.
+  goc_cho_phep:
+    - http://127.0.0.1:8081
+    - http://ung-dung:8081

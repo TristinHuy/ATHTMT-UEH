@@ -1,0 +1,146 @@
+# Lab S6. Trạng thái KHỞI ĐẦU của ứng dụng thử nghiệm, cố ý để hai lỗ hổng mở.
+#
+# Bốn dịch vụ, không hơn, và chỉ hai trong bốn chạy cùng lúc. Trần bốn container
+# cho mỗi lab là ràng buộc thiết kế của học phần, ghi ở ADR-0003 mục N3, và bộ
+# chấm đọc chính tệp này để cưỡng chế nó. Hai dịch vụ còn lại nằm trong profile,
+# tức `make up` không kéo chúng lên; chúng chạy một lần rồi tự bỏ.
+#
+# Buổi này có một ràng buộc mà năm buổi trước không có, và nó là lý do phần
+# phạm vi cho phép hôm nay chặt hơn mọi buổi trước: bạn đang cầm một bộ quét
+# web. Một bộ quét trỏ nhầm địa chỉ không phải là một lỗi gõ phím, nó là một
+# hành vi nhắm vào máy của người khác. Vì vậy địa chỉ đích của ZAP nằm cố định
+# trong tệp này dưới dạng TÊN DỊCH VỤ trong mạng compose, không phải dưới dạng
+# một địa chỉ bạn gõ vào lúc chạy. Bộ chấm đọc lại chính chỗ đó.
+#
+# VỀ VIỆC GHIM ẢNH. Luật nhà là mọi ảnh ghim theo digest, không theo thẻ, vì một
+# thẻ có thể trỏ sang ảnh khác bất cứ lúc nào và khi đó bài của bạn hôm nay và
+# bài bộ chấm chạy tuần sau đứng trên hai ảnh khác nhau mà không ai biết. Bản
+# này còn ghi thẻ, vì máy soạn bài không kéo được ảnh nên không có digest thật
+# để ghi, và bịa một chuỗi sha256 thì tệ hơn nhiều so với nói thẳng là chưa
+# ghim. Mức phiên bản dưới đây cũng CHƯA đối chiếu với sổ đăng ký vì cùng lý do;
+# nếu một thẻ không tồn tại thì ghim-digest.sh dừng và nói rõ thẻ nào.
+name: css-s06
+
+services:
+
+  # Ứng dụng huấn luyện do OWASP phát hành. Bạn KHÔNG sửa gì trong này, và không
+  # có việc nào của bài yêu cầu bạn sửa. Vai của nó gói trong một câu: cho bạn
+  # một bề mặt đủ rộng để một lần quét nền sinh ra đủ nhiều cảnh báo mà việc xếp
+  # loại trở thành việc thật, tức con số p ở mục 6.5 của giáo trình.
+  muc-tieu:
+    # CHUA_GHIM_DIGEST: thẻ bkimminich/juice-shop:v18.0.0, chờ ghim-digest.sh thay bằng digest
+    image: bkimminich/juice-shop:v18.0.0
+    container_name: css-s06-muc-tieu
+    hostname: muc-tieu
+    environment:
+      NODE_ENV: unsafe
+    # Không mở cổng nào ra máy thật. Bạn không cần trình duyệt để nhìn nó; ZAP
+    # đứng trong cùng mạng compose và gọi thẳng bằng tên dịch vụ.
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+  # Ứng dụng thử nghiệm của bài, và là thứ DUY NHẤT bạn sửa. Nó nhỏ đúng bằng
+  # mức đọc hết trong mười phút, vì bài này đo quyết định cấu hình chứ không đo
+  # sức đọc mã. Hai lỗ hổng được chỉ định nằm trong ung-dung/ung_dung.py và
+  # ung-dung/chinh-sach.yaml, đều gắn theo dạng chỉ đọc nên sửa xong chỉ cần
+  # khởi động lại, không phải dựng lại ảnh.
+  ung-dung:
+    build: ./ung-dung
+    # CHUA_GHIM_DIGEST: thẻ dưới đây đặt tên cho ảnh dựng tại chỗ từ ./ung-dung,
+    # nên digest thật của nó chỉ tồn tại sau khi bạn dựng. Ảnh nền cần ghim nằm
+    # ở dòng FROM trong ung-dung/Dockerfile.
+    image: css-s06-ung-dung:v1
+    container_name: css-s06-ung-dung
+    hostname: ung-dung
+    environment:
+      CSS_CHINH_SACH: /etc/css-s06/chinh-sach.yaml
+      CSS_CONG: "8081"
+      PYTHONHASHSEED: "0"
+      TZ: Asia/Ho_Chi_Minh
+    volumes:
+      - ./ung-dung:/usr/local/lib/css-s06:ro
+      - ./ung-dung/chinh-sach.yaml:/etc/css-s06/chinh-sach.yaml:ro
+    ports:
+      # Cổng này mở về 127.0.0.1 vì việc 3 bắt bạn mở một trình duyệt thật để
+      # thu báo cáo vi phạm của chính sách. Không đổi sang 0.0.0.0: khi ấy ứng
+      # dụng cố ý để hở của bạn nghe trên mọi giao diện mạng của máy, kể cả mạng
+      # Wi-Fi bạn đang ngồi, và lúc đó bạn vừa dựng đúng thứ bài học cấm.
+      - "127.0.0.1:8081:8081"
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks: [labnet]
+
+  # Bộ quét nền. Nằm ngoài profile mặc định, chạy một lần rồi bỏ.
+  #
+  # ĐỌC KỸ DÒNG COMMAND. Đích của lần quét nằm ở đây, viết bằng tên dịch vụ
+  # trong mạng compose, và đó là chỗ duy nhất hợp lệ để nó nằm. Chế độ là
+  # baseline, tức quét NỀN: ZAP đi qua trang và đọc thứ máy chủ trả về, nó
+  # không gửi tải trọng thử. Quét chủ động và fuzzing đã bị cắt khỏi buổi này
+  # theo ADR-0003, vì đó là ranh giới với học phần Kiểm thử thâm nhập.
+  quet:
+    profiles: [quet]
+    # CHUA_GHIM_DIGEST: thẻ ghcr.io/zaproxy/zaproxy:2.16.1, chờ ghim-digest.sh thay bằng digest
+    image: ghcr.io/zaproxy/zaproxy:2.16.1
+    container_name: css-s06-quet
+    depends_on: [ung-dung, muc-tieu]
+    # Hai lần quét nền trong một lần chạy, và cả hai địa chỉ đều là TÊN DỊCH VỤ.
+    # Lần thứ nhất nhắm ứng dụng thử nghiệm, tức thứ bạn sửa, nên tệp quet.json
+    # của nó là bản để so trước với sau. Lần thứ hai nhắm ứng dụng huấn luyện,
+    # nơi bề mặt đủ rộng để việc xếp loại cảnh báo thành việc thật; tệp
+    # quet-muc-tieu.json là nguồn của bảng xếp loại và của con số p.
+    #
+    # Cờ -I bảo bộ quét đừng trả mã thoát khác 0 chỉ vì có cảnh báo mức thông
+    # tin. Mã thoát của lần quét KHÔNG phải phán quyết của bài; phán quyết nằm
+    # trong tệp báo cáo, và Makefile nói lại điều đó mỗi lần bạn chạy.
+    #
+    # Đây là chế độ quét NỀN. Bộ quét đọc thứ máy chủ trả về và không gửi tải
+    # trọng thử. Thêm một cờ quét chủ động vào dòng này là bước ra khỏi ranh giới
+    # của buổi, và SCOPE.md nói rõ hậu quả.
+    command:
+      - sh
+      - -c
+      - >-
+        zap-baseline.py -t http://ung-dung:8081 -J quet.json -I ;
+        zap-baseline.py -t http://muc-tieu:3000 -J quet-muc-tieu.json -I ;
+        true
+    # Ảnh ZAP chạy dưới người dùng `zap`, mã số 1000. Thư mục evidence/S6 trên
+    # máy bạn phải cho người dùng ấy ghi được, nếu không báo cáo không rơi ra
+    # ngoài container. `make preflight` tạo sẵn thư mục và nói rõ nếu quyền sai.
+    volumes:
+      - ./evidence/S6:/zap/wrk
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+  # Chỗ bạn đứng để đo MÃ của mình. Chỉ đo mã, không đo ảnh: ADR-0003 mục 2 dời
+  # Trivy sang buổi S8, nơi việc quét một hiện vật đi kèm SBOM, chữ ký và cổng an
+  # toàn thành một câu hỏi trọn vẹn thay vì một thao tác lẻ.
+  cong-cu:
+    profiles: [cong-cu]
+    build: ./cong-cu
+    # CHUA_GHIM_DIGEST: ảnh dựng tại chỗ, ảnh nền cần ghim nằm ở dòng FROM duy
+    # nhất trong cong-cu/Dockerfile.
+    image: css-s06-cong-cu:v1
+    container_name: css-s06-cong-cu
+    volumes:
+      - ./ung-dung:/lab/ung-dung:ro
+      - ./quet:/lab/quet:ro
+      - ./evidence/S6:/lab/evidence
+    # KHÔNG có dòng nào gắn /var/run/docker.sock vào đây, và chỗ thiếu ấy là cố
+    # ý. Gắn ổ cắm của Docker vào một container là trao cho tiến trình bên trong
+    # quyền dựng container mới trên máy thật, tức quyền root trên máy thật, đổi
+    # lấy một chút tiện tay. Chỗ này không cần điều đó, vì semgrep chỉ đọc mã
+    # nguồn gắn vào ở chế độ chỉ đọc. Buổi S8 có việc cần đọc một ảnh, và nó
+    # cũng giải quyết bằng `docker save` ra tệp tar chứ không bằng ổ cắm.
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+networks:
+  labnet:
+    name: css-s06-labnet
+    driver: bridge

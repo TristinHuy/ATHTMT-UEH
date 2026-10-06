@@ -1,0 +1,69 @@
+nguon_quet: evidence/S6/quet-muc-tieu.json
+
+hai_lo_hong:
+  - ma: LH-1
+    ten: phản chiếu chuỗi người dùng vào thân trang mà chưa mã hóa theo ngữ cảnh
+    ma_cwe: CWE-79
+    hang_owasp: A05:2025
+  - ma: LH-2
+    ten: trang khác ra lệnh đổi địa chỉ nhân danh người đang đăng nhập
+    ma_cwe: CWE-352
+    hang_owasp: A01:2025
+    ma_cwe_nua_samesite: CWE-1275
+
+tong_canh_bao: 13
+canh_bao:
+  - ma: 10038
+    ten: Content Security Policy (CSP) Header Not Set
+    xep_loai: sua_bang_cau_hinh
+    ghi_chu: Báo cáo thấy thiếu CSP trên trang gốc và nhiều đường dẫn ứng dụng; thêm chính sách qua cấu hình phản hồi máy chủ.
+  - ma: 10098
+    ten: Cross-Domain Misconfiguration
+    xep_loai: sua_bang_cau_hinh
+    ghi_chu: "Bằng chứng Access-Control-Allow-Origin: * xuất hiện ở nhiều phản hồi, kể cả /ftp; giới hạn CORS ở cấu hình."
+  - ma: 10017
+    ten: Cross-Domain JavaScript Source File Inclusion
+    xep_loai: sua_bang_ma
+    ghi_chu: HTML nạp jQuery và cookieconsent từ cdnjs; thay đổi thẻ script hoặc đóng gói mã cần sửa nguồn ứng dụng.
+  - ma: 10110
+    ten: Dangerous JS Functions
+    xep_loai: sua_bang_ma
+    ghi_chu: Bằng chứng trong main.js và vendor.js là bypassSecurityTrustHtml; rà soát điểm gọi và dữ liệu đầu vào trong mã.
+  - ma: 10063
+    ten: Deprecated Feature Policy Header Set
+    xep_loai: sua_bang_cau_hinh
+    ghi_chu: Báo cáo phát hiện tiêu đề Feature-Policy cũ trên các phản hồi; đổi sang Permissions-Policy tại cấu hình máy chủ.
+  - ma: 90004
+    ten: Insufficient Site Isolation Against Spectre Vulnerability
+    xep_loai: sua_bang_cau_hinh
+    ghi_chu: Báo cáo chỉ ra thiếu COEP trên phản hồi; có thể bổ sung chính sách cô lập qua cấu hình máy chủ sau khi kiểm thử tương thích.
+  - ma: 10096
+    ten: Timestamp Disclosure - Unix
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Giá trị được ghi nhận ở trang gốc, sitemap.xml và styles.css; báo cáo không cho thấy timestamp gắn với dữ liệu nhạy cảm hay tài khoản.
+  - ma: 10116
+    ten: ZAP is Out of Date
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Cảnh báo trỏ tới phiên bản ZAP của máy quét, không phải cấu hình hay nội dung ứng dụng mục tiêu.
+  - ma: 10027
+    ten: Information Disclosure - Suspicious Comments
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Bằng chứng là chữ query trong liên kết OWASP và chuỗi SVG của vendor.js; các đoạn trích không thể hiện bí mật hay thông tin nhạy cảm.
+  - ma: 10109
+    ten: Modern Web Application
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Mô tả ZAP nói đây là nhận diện ứng dụng hiện đại để gợi ý Ajax Spider; không nêu điểm yếu cần khắc phục.
+  - ma: 10049
+    ten: Non-Storable Content
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Hai instance /ftp/encrypt.pyc và suspicious_errors.yml trả 403; báo cáo chỉ gợi ý hiệu năng lưu cache, không chỉ ra rò rỉ.
+  - ma: 10049
+    ten: Storable and Cacheable Content
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Các instance là danh mục /ftp và robots.txt; kết quả không chứng minh nội dung cá nhân hay theo phiên bị chia sẻ qua cache.
+  - ma: 10049
+    ten: Storable but Non-Cacheable Content
+    xep_loai: khong_phai_canh_bao_that
+    ghi_chu: Các phản hồi có max-age=0, gồm cả tệp hỗ trợ; cảnh báo chỉ nói có thể lưu nhưng phải tái xác thực, chưa chứng minh rò rỉ cache.
+
+ty_le_p: 0.4615
