@@ -1,0 +1,48 @@
+# Quy tắc phát hiện, viết theo tập con Sigma mà bin/quy_tac.py hiểu.
+#
+# Bản phát đi kèm một quy tắc CHẠY ĐƯỢC NHƯNG CHƯA ĐẠT, và đó là chủ ý. Chạy
+# `make do-chinh-xac` ngay bây giờ, trước khi sửa một chữ nào, rồi nhìn hai con
+# số. Quy tắc này bắt hết mọi sự kiện đáng bắt, nên độ phủ của nó bằng 1. Nó cũng
+# bắt hết mọi thứ khác bị từ chối, nên độ chính xác của nó thấp tới mức người
+# trực sẽ tắt chuông sau ba ngày. Một quy tắc bị tắt thì bằng không có.
+#
+# Việc của bạn là kéo độ chính xác lên trên ngưỡng mà không đánh rơi độ phủ. Hai
+# chỗ đáng nghĩ, và bạn phải tự tìm ra chúng bằng cách đọc các lần bắt nhầm mà
+# bin/do-chinh-xac.py in ra: sự kiện đáng bắt có chung một đặc điểm nào mà các
+# lần bắt nhầm không có, và trong số các lần bắt nhầm có nguồn nào lặp đi lặp lại
+# theo lịch, tức là một nguồn báo nhầm đã biết chứ không phải một sự cố.
+#
+# Ràng buộc: quy tắc phải nói về HÀNH VI, không nói về BẢN GHI CỤ THỂ. Neo vào
+# trường id hay vào một dấu thời gian là chép đáp án chứ không phải phát hiện, và
+# bộ chấm từ chối những trường ấy. Quy tắc của bạn còn được chạy lại trên một tập
+# có nhãn thứ hai mà bạn không thấy, nên một quy tắc học thuộc tập này sẽ lộ ra ở
+# đó.
+
+title: Phat hien that bai xac thuc cua chu the thuc
+id: 7a1f0c62-0000-4000-8000-000000000000
+status: experimental
+description: >-
+  Phat hien yeu cau bi tu choi do that bai xac thuc cua chu the thuc, bo qua
+  phep tham do suc khoe dinh ky khong gui thong tin xac thuc.
+author: Nhom van hanh lab
+date: 2026/08/18
+
+logsource:
+  product: css-lab
+  service: tong-hop
+
+detection:
+  bi_tu_choi:
+    ket_qua: tu_choi
+  loi_xac_thuc:
+    ly_do|startswith: chung-thuc-that-bai
+  tham_do_suc_khoe:
+    nguoi_dung: kiem-tra-suc-khoe
+  condition: bi_tu_choi and loi_xac_thuc and not tham_do_suc_khoe
+
+falsepositives:
+  - >-
+    Hai lần dịch vụ sao-luu-dem bị từ chối do dùng lại chữ ký thẻ cũ là báo nhầm
+    đã đo được; đối chiếu chủ thể và lịch chạy sao lưu trước khi nâng cấp sự cố.
+
+level: medium

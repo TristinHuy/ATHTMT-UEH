@@ -1,0 +1,93 @@
+# Cấu hình Promtail cho lab S7. Đây là chặng CHUYỂN trong bốn việc của mục 7.2.
+#
+# Sáu khối nguồn dưới đây chuẩn hóa nhãn nguồn, nhưng giữ nguyên nội dung dòng.
+#
+# VỀ NHÃN, đọc trước khi thêm nhãn thứ ba. Mỗi tổ hợp giá trị nhãn sinh ra một
+# luồng riêng trong Loki, nên gắn một trường có nhiều giá trị làm nhãn, ví dụ tên
+# người dùng hay dấu thời gian, sẽ sinh ra hàng nghìn luồng và kho nhật ký chậm
+# dần rồi từ chối nhận. Quy tắc thực dụng: nhãn dùng để CHỌN nguồn, còn nội dung
+# dùng để LỌC bên trong nguồn đã chọn. Nguồn S02-S06 có định dạng khác nhau,
+# nên câu truy vấn lọc nội dung theo định dạng thật thay vì giả định mọi dòng là JSON.
+
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+  log_level: info
+
+positions:
+  # Tệp này nhớ Promtail đã đọc tới đâu trong từng tệp nguồn. Nó nằm trên một
+  # volume riêng chứ không nằm trong thư mục nhật ký, vì thư mục nhật ký gắn ở
+  # chế độ chỉ đọc và vì trạng thái của người đọc không nên nằm lẫn trong thứ
+  # người ấy đọc.
+  filename: /vi-tri/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+
+  - job_name: nhat-ky-lab-S02
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S02
+          __path__: /nhat-ky/S02/*.log
+    pipeline_stages:
+      - regex:
+          expression: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{4})'
+      - timestamp:
+          source: time
+          format: '2006-01-02T15:04:05-0700'
+
+  - job_name: nhat-ky-lab-S03
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S03
+          __path__: /nhat-ky/S03/*.log
+    pipeline_stages:
+      - multiline:
+          firstline: '^lenh: '
+          max_wait_time: 3s
+          max_lines: 1000
+
+  - job_name: nhat-ky-lab-S04
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S04
+          __path__: /nhat-ky/S04/*.log
+
+  - job_name: nhat-ky-lab-S05
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S05
+          __path__: /nhat-ky/S05/*.log
+
+  - job_name: nhat-ky-lab-S06
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S06
+          __path__: /nhat-ky/S06/*.log
+
+  - job_name: nhat-ky-lab-S07
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: nhat-ky-lab
+          buoi: S07
+          __path__: /nhat-ky/S07/*.log
+    pipeline_stages:
+      - json:
+          expressions:
+            time: thoi_diem
+      - timestamp:
+          source: time
+          format: '2006-01-02T15:04:05-0700'

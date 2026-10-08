@@ -1,0 +1,3 @@
+# Thư viện bộ kiểm công khai của lab S7 cần. Không cần Docker để chạy bộ kiểm.
+pytest>=8.0
+PyYAML>=6.0

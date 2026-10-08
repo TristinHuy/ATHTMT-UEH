@@ -1,0 +1,54 @@
+{
+  "nhan": "S06-nguon",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S06\"}",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:16:44+0700",
+  "so_dong_khop": 4,
+  "dong": [
+    {
+      "thoi_diem_nano": "1791450753163304464",
+      "noi_dung": "css-s06 nghe tren cong 8081",
+      "nhan_dong": {
+        "buoi": "S06",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S06/access.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    },
+    {
+      "thoi_diem_nano": "1791450753163311005",
+      "noi_dung": "172.19.0.1 \"GET /thu/tim-kiem?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E HTTP/1.1\" 200 -",
+      "nhan_dong": {
+        "buoi": "S06",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S06/access.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    },
+    {
+      "thoi_diem_nano": "1791450753163378129",
+      "noi_dung": "172.19.0.1 \"POST /thu/bao-cao-csp HTTP/1.1\" 204 -",
+      "nhan_dong": {
+        "buoi": "S06",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S06/access.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    },
+    {
+      "thoi_diem_nano": "1791450753165862007",
+      "noi_dung": "{\"csp-report\":{\"document-uri\":\"http://127.0.0.1:8081/thu/tim-kiem?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E\",\"referrer\":\"\",\"violated-directive\":\"script-src-elem\",\"effective-directive\":\"script-src-elem\",\"original-policy\":\"script-src 'self' 'nonce-BLJwsYsEuqCJRwpGLT-TbA'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; report-uri /thu/bao-cao-csp\",\"disposition\":\"report\",\"blocked-uri\":\"inline\",\"line-number\":5,\"source-file\":\"http://127.0.0.1:8081/thu/tim-kiem\",\"status-code\":200,\"script-sample\":\"\"}}",
+      "nhan_dong": {
+        "buoi": "S06",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S06/csp-report.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    }
+  ],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

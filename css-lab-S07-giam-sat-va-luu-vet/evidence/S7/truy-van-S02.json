@@ -1,0 +1,21 @@
+{
+  "nhan": "S02",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S02\"} |= \"su_kien=leo_quyen\" |= \"euid=0\"",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:15:50+0700",
+  "so_dong_khop": 1,
+  "dong": [
+    {
+      "thoi_diem_nano": "1790051352000000000",
+      "noi_dung": "2026-09-22T04:29:12+0000 su_kien=leo_quyen uid=10001 euid=0 chi_tiet=doc-bimat chay voi uid hieu dung cua chu tep qua bit setuid",
+      "nhan_dong": {
+        "buoi": "S02",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S02/setuid.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    }
+  ],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

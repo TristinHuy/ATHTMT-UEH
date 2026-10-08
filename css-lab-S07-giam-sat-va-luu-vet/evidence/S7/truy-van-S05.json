@@ -1,0 +1,21 @@
+{
+  "nhan": "S05",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S05\"} |= \"su_kien=kiem_the\" |= \"ly_do=qua_han\" |= \"ket_qua=tu_choi\"",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:15:50+0700",
+  "so_dong_khop": 1,
+  "dong": [
+    {
+      "thoi_diem_nano": "1791450753162819037",
+      "noi_dung": "2026-10-04T08:45:13+0000 su_kien=kiem_the uid=10005 euid=10005 chi_tiet=ly_do=qua_han ket_qua=tu_choi ma_http=401 chu_the_tu_khai=an-nv duong_dan=/ho-so thong_bao=qua_han: Signature has expired",
+      "nhan_dong": {
+        "buoi": "S05",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S05/auth.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    }
+  ],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

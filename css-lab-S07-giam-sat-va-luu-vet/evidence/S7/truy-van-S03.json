@@ -1,0 +1,21 @@
+{
+  "nhan": "S03",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S03\"} |= \"No required SSL certificate was sent\"",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:15:50+0700",
+  "so_dong_khop": 1,
+  "dong": [
+    {
+      "thoi_diem_nano": "1791450753162794875",
+      "noi_dung": "lenh: docker compose run --rm -T --entrypoint sh may-khach -c \"printf \\\"GET / HTTP/1.0\\r\\nHost: may-chu\\r\\n\\r\\n\\\" | openssl s_client -connect may-chu:8443 -tls1_3 -CAfile /pki/ca/ca.crt -verify_return_error -verify_hostname may-chu -quiet -ign_eof\"\n\n Container css-lab-s03-an-toan-mang-may-khach-run-c2f890552ce8 Creating \n Container css-lab-s03-an-toan-mang-may-khach-run-c2f890552ce8 Created \nConnecting to 172.19.0.2\nCan't use SSL_get_servername\ndepth=1 CN=CA noi bo lab S03\nverify return:1\ndepth=0 CN=may-chu\nverify return:1\nHTTP/1.1 400 Bad Request\r\nServer: nginx/1.29.3\r\nDate: Tue, 29 Sep 2026 01:58:18 GMT\r\nContent-Type: text/html\r\nContent-Length: 237\r\nConnection: close\r\n\r\n<html>\r\n<head><title>400 No required SSL certificate was sent</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>No required SSL certificate was sent</center>\r\n<hr><center>nginx/1.29.3</center>\r\n</body>\r\n</html>\r",
+      "nhan_dong": {
+        "buoi": "S03",
+        "detected_level": "error",
+        "filename": "/nhat-ky/S03/client-cert-K4.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    }
+  ],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

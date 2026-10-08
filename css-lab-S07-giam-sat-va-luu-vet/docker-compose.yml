@@ -1,0 +1,119 @@
+# Lab S7. Đường đi của một dòng nhật ký, từ nơi nó sinh ra tới nơi bạn hỏi nó.
+#
+# Ba dịch vụ chạy mặc định, dịch vụ thứ tư chỉ chạy khi bạn gọi tên hồ sơ "xem".
+# Trần bốn container cho mỗi lab là ràng buộc thiết kế của học phần, ghi ở
+# ADR-0003 mục N3, và bộ chấm đọc chính tệp này để cưỡng chế nó.
+#
+# VỀ CÁCH CHIA. Buổi bảy nói rằng chữ ghi log gộp bốn việc: sinh ra, chuyển đi,
+# giữ, và hỏi tới. Tệp này chia đúng bốn việc ấy thành từng khối, để chỗ hỏng của
+# một việc không lẫn vào việc khác. Thư mục nhat-ky/ là nơi SINH; promtail là
+# chặng CHUYỂN; loki là nơi GIỮ; cong-cu và grafana là chỗ HỎI.
+#
+# VỀ VIỆC GHIM ẢNH. Luật nhà là mọi ảnh ghim theo digest, không theo thẻ, vì một
+# thẻ có thể trỏ sang ảnh khác bất cứ lúc nào và khi đó bài của bạn hôm nay và
+# bài bộ chấm chạy tuần sau đứng trên hai ảnh khác nhau mà không ai biết. Bản này
+# còn ghi thẻ, vì máy soạn bài không kéo được ảnh nên không có digest thật để
+# ghi, và bịa một chuỗi sha256 thì tệ hơn nhiều so với nói thẳng là chưa ghim.
+# Chạy `bash ghim-digest.sh --sua` trên máy có mạng trước khi nộp.
+name: css-s07
+
+services:
+
+  # NƠI GIỮ. Loki không mở cổng nào ra máy thật, và đó không phải là tiết kiệm
+  # cấu hình. Kho nhật ký là thứ người chiếm được máy muốn chạm tới đầu tiên,
+  # theo ATT&CK T1685, nên nó đứng sau một ranh giới: chỉ ai ở trong mạng compose
+  # này mới gọi được nó. Muốn xem bằng trình duyệt thì đi qua grafana ở hồ sơ xem.
+  loki:
+    # CHUA_GHIM_DIGEST: thẻ grafana/loki:3.5.1, chờ ghim-digest.sh thay bằng digest
+    image: grafana/loki:3.5.1
+    container_name: css-s07-loki
+    hostname: loki
+    command: ["-config.file=/etc/loki/loki.yaml"]
+    user: "10001:10001"
+    volumes:
+      - ./cau-hinh/loki.yaml:/etc/loki/loki.yaml:ro
+      - kho-nhat-ky:/loki
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+  # CHẶNG CHUYỂN. Promtail đọc thư mục nhat-ky/ và đẩy sang Loki.
+  #
+  # Chú ý ràng buộc :ro ở dòng gắn thư mục nguồn. Chặng đọc nhật ký không được
+  # quyền sửa nhật ký, vì nếu nó sửa được thì nó vừa là người chuyển tin vừa là
+  # người có thể đổi tin, đúng cái thế mà mục 7.3 của giáo trình gọi là người bị
+  # đo mà cầm luôn cái thước. Bộ chấm kiểm dòng ấy.
+  promtail:
+    # CHUA_GHIM_DIGEST: thẻ grafana/promtail:3.5.1, chờ ghim-digest.sh thay bằng digest
+    image: grafana/promtail:3.5.1
+    container_name: css-s07-promtail
+    hostname: promtail
+    command: ["-config.file=/etc/promtail/promtail.yaml"]
+    depends_on: [loki]
+    volumes:
+      - ./cau-hinh/promtail.yaml:/etc/promtail/promtail.yaml:ro
+      - ./nhat-ky:/nhat-ky:ro
+      - vi-tri-doc:/vi-tri
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+
+  # CHỖ HỎI, đường chính. Container này mang logcli để bạn gõ tay và mang Python
+  # để ghi lại kết quả dưới dạng máy đọc được. Nó gắn cả thư mục bài làm vì nó
+  # phải ghi bằng chứng vào evidence/ và gieo dòng thử vào nhat-ky/S07/.
+  cong-cu:
+    build: ./cong-cu
+    # CHUA_GHIM_DIGEST: thẻ dưới đây đặt tên cho ảnh dựng tại chỗ từ ./cong-cu,
+    # nên digest thật của nó chỉ tồn tại sau khi bạn dựng. Hai ảnh nền cần ghim
+    # nằm ở hai dòng FROM trong cong-cu/Dockerfile.
+    image: css-s07-cong-cu:v1
+    container_name: css-s07-cong-cu
+    hostname: cong-cu
+    depends_on: [loki]
+    environment:
+      LOKI_URL: http://loki:3100
+      LOKI_ADDR: http://loki:3100
+      TZ: Asia/Ho_Chi_Minh
+    working_dir: /lab
+    volumes:
+      - ./:/lab
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+    profiles: [cong-cu]
+
+  # CHỖ HỎI, đường phụ. Grafana không nằm trên đường chấm: mọi bằng chứng của bài
+  # sinh ra từ logcli và từ bin/hoi-loki.py. Nó có mặt vì một bảng đồ thị giúp
+  # bạn nhìn ra hình dạng của dữ liệu nhanh hơn nhiều so với đọc từng dòng, và vì
+  # câu hỏi về tỉ lệ báo nhầm dễ trả lời hơn khi bạn thấy nền của nó. ADR-0003 hạ
+  # dịch vụ này xuống mức tùy chọn, nên bỏ qua nó không mất điểm nào.
+  grafana:
+    # CHUA_GHIM_DIGEST: thẻ grafana/grafana:12.1.0, chờ ghim-digest.sh thay bằng digest
+    image: grafana/grafana:12.1.0
+    container_name: css-s07-grafana
+    hostname: grafana
+    depends_on: [loki]
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_SECURITY_ADMIN_USER: quan-tri
+      GF_SECURITY_ADMIN_PASSWORD: doi-truoc-khi-nop
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      # Neo vào 127.0.0.1 chứ không mở ra mọi giao diện mạng. Mở rộng nghĩa là
+      # bảng điều khiển nhật ký của bạn nghe cả trên mạng Wi-Fi bạn đang ngồi.
+      - "127.0.0.1:3000:3000"
+    security_opt:
+      - no-new-privileges:true
+    networks: [labnet]
+    profiles: [xem]
+
+volumes:
+  kho-nhat-ky:
+    name: css-s07-kho-nhat-ky
+  vi-tri-doc:
+    name: css-s07-vi-tri-doc
+
+networks:
+  labnet:
+    name: css-s07-labnet
+    driver: bridge

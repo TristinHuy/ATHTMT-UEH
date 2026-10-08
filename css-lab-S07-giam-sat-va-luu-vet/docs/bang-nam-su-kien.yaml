@@ -1,0 +1,80 @@
+# Bảng ghi lại những gì thực sự có trong bằng chứng S1-S6 đã nạp.
+nguon_du_lieu: cua_minh
+ly_do_dung_du_lieu_thay_the: null
+
+su_kien:
+  - buoi: S02
+    ten: Mot tien trinh gianh them quyen qua tep setuid
+    mo_ta_su_kien: >-
+      Nhật ký dịch vụ ghi lần chạy doc-bimat với uid thường nhưng euid bằng
+      không sau khi tiến trình dùng tệp mang bit setuid.
+    truy_van: '{job="nhat-ky-lab", buoi="S02"} |= "su_kien=leo_quyen" |= "euid=0"'
+    tim_duoc: true
+    so_dong_khop: 1
+    ma_attack: T1685.004
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Hai điều kiện neo vào tên sự kiện và euid hiệu dụng bằng không; chúng phân
+      biệt lần leo quyền đã ghi với các lần khởi động và từ chối đọc sau khi vá.
+
+  - buoi: S03
+    ten: Mot lan noi bi tu choi vi thieu chung thu khach
+    mo_ta_su_kien: >-
+      Kết quả K4 từ chối bắt tay TLS vì client không gửi chứng thư; đầu ra máy
+      chủ ghi rõ lỗi No required SSL certificate was sent.
+    truy_van: '{job="nhat-ky-lab", buoi="S03"} |= "No required SSL certificate was sent"'
+    tim_duoc: true
+    so_dong_khop: 1
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Truy vấn lọc đúng thông báo lỗi mà K4 trả về, không gom các lỗi TLS khác
+      như sai hostname hoặc chứng thư do CA ngoài ký.
+
+  - buoi: S04
+    ten: Mot truy van cham bang luong
+    mo_ta_su_kien: >-
+      Dòng pgaudit của vai trò báo cáo đọc cột tổng lương từ khung thống kê
+      khoa, tương ứng phép truy vấn chạm dữ liệu lương đã được bài kiểm ghi lại.
+    truy_van: '{job="nhat-ky-lab", buoi="S04"} |= "public.nhan_su" |= "tong_luong"'
+    tim_duoc: true
+    so_dong_khop: 1
+    ma_attack: T1685
+    ma_cwe: CWE-532
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Cả tên quan hệ nhân sự lẫn cột tổng lương xuất hiện trong cùng dòng audit;
+      các truy vấn khác trong pgaudit chạm bảng đề nghị chi không khớp.
+
+  - buoi: S05
+    ten: Mot tam the qua han
+    mo_ta_su_kien: >-
+      Nhật ký dịch vụ từ chối yêu cầu hồ sơ vì tấm thẻ ký đã hết hạn, ghi lý do
+      qua_han thay vì lỗi chữ ký hoặc người nhận.
+    truy_van: '{job="nhat-ky-lab", buoi="S05"} |= "su_kien=kiem_the" |= "ly_do=qua_han" |= "ket_qua=tu_choi"'
+    tim_duoc: true
+    so_dong_khop: 1
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Bộ lọc neo vào loại sự kiện, lý do từ chối và kết quả; các lỗi token khác
+      không bị nhầm thành thẻ hết hạn.
+
+  - buoi: S06
+    ten: Mot yeu cau web bi chinh sach noi dung chan
+    mo_ta_su_kien: >-
+      Bằng chứng S06 chỉ có báo cáo CSP ở chế độ report-only và phản hồi HTTP
+      thành công; chưa có dòng chứng minh một yêu cầu bị chính sách chặn.
+    truy_van: '{job="nhat-ky-lab", buoi="S06"} |= "enforce"'
+    tim_duoc: false
+    so_dong_khop: 0
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: khong_he_ghi
+    ghi_chu: >-
+      Đã thử truy vấn lọc disposition=enforce trên nguồn S06; báo cáo có
+      disposition=report và access log trả HTTP 200, nên chính sách chỉ báo vi
+      phạm chứ chưa ghi nhận một lần chặn thực sự.

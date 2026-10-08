@@ -1,0 +1,96 @@
+# Bảng năm sự kiện. Đây là hiện vật được chấm nặng nhất của bài.
+#
+# Chép tệp này thành docs/bang-nam-su-kien.yaml rồi điền. Giữ nguyên tên trường.
+#
+# Luật của bài: mỗi sự kiện tìm lại bằng ĐÚNG MỘT câu truy vấn, và không được mở
+# lịch sử dòng lệnh để nhớ mình đã làm gì. Ràng buộc thứ hai nghe như mẹo chống
+# gian lận nhưng không phải. Nó mô phỏng ATT&CK T1070.003: lịch sử dòng lệnh là
+# thứ biến mất đầu tiên trên một máy đã bị chiếm, nên người vận hành không được
+# phép coi nó là nguồn. Nếu bạn chỉ trả lời được nhờ nhớ lại mình đã gõ gì thì
+# nhật ký của bạn chưa trả lời được, và đó là phát hiện chứ không phải thất bại.
+#
+# Bắt buộc có ít nhất MỘT dòng tim_duoc: false. Dòng không tìm được dạy nhiều
+# nhất, vì nó chỉ ra một chỗ hệ thống im lặng. Giấu nó đi là tự bỏ phần điểm cao
+# nhất, và thang chấm nói rõ điều đó.
+
+# Nguồn dữ liệu. Nhận hai giá trị: cua_minh, thay_the.
+# Dùng bộ dữ liệu thay thế do giảng viên phát không bị trừ điểm kiến thức, nhưng
+# phải khai và phải nói vì sao, vì người chấm cần biết bảng này nói về hệ thống
+# của bạn hay về hệ thống của người khác.
+nguon_du_lieu: cua_minh
+ly_do_dung_du_lieu_thay_the: null
+
+su_kien:
+
+  - buoi: S02
+    ten: Mot tien trinh gianh them quyen qua tep setuid
+    mo_ta_su_kien: >-
+      Mô tả điều đã xảy ra ở buổi hai, bằng câu của bạn, đủ để người chấm biết
+      bạn đang tìm lại đúng thứ gì. Ít nhất mười hai từ.
+    truy_van: '{job="nhat-ky-lab", buoi="S02"} | json | ...'
+    tim_duoc: true
+    so_dong_khop: 0
+    ma_attack: T1685.004
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Chỗ để nói điều bạn học được khi tìm. Trường nào thiếu, nhãn nào đặt sai,
+      câu truy vấn đầu tiên hỏng ở đâu.
+
+  - buoi: S03
+    ten: Mot lan noi bi tu choi vi thieu chung thu khach
+    mo_ta_su_kien: >-
+      Điền.
+    truy_van: '{job="nhat-ky-lab", buoi="S03"} | json | ...'
+    tim_duoc: true
+    so_dong_khop: 0
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Điền.
+
+  - buoi: S04
+    ten: Mot truy van cham bang luong
+    mo_ta_su_kien: >-
+      Điền.
+    truy_van: '{job="nhat-ky-lab", buoi="S04"} | json | ...'
+    tim_duoc: true
+    so_dong_khop: 0
+    ma_attack: T1685
+    ma_cwe: CWE-532
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Điền.
+
+  - buoi: S05
+    ten: Mot tam the qua han
+    mo_ta_su_kien: >-
+      Điền.
+    truy_van: '{job="nhat-ky-lab", buoi="S05"} | json | ...'
+    tim_duoc: true
+    so_dong_khop: 0
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: null
+    ghi_chu: >-
+      Điền.
+
+  - buoi: S06
+    ten: Mot yeu cau web bi chinh sach noi dung chan
+    mo_ta_su_kien: >-
+      Điền.
+    truy_van: '{job="nhat-ky-lab", buoi="S06"} | json | ...'
+    # Ít nhất một trong năm dòng phải để false, kèm lý do và kèm ghi chú giải
+    # thích. Ba lý do được nhận, và chúng khác nhau về bản chất:
+    #   khong_he_ghi         nguồn ấy không sinh ra dòng nào cho việc này
+    #   thieu_truong_de_loc  có ghi, nhưng thiếu trường nên không lọc ra được
+    #   het_han_giu          đã từng ghi, nhưng hạn giữ đã cắt mất
+    tim_duoc: false
+    so_dong_khop: 0
+    ma_attack: T1685
+    ma_cwe: CWE-778
+    ly_do_khong_tim_duoc: thieu_truong_de_loc
+    ghi_chu: >-
+      Nói rõ bạn đã thử câu truy vấn nào, và vì sao bạn kết luận là thiếu trường
+      chứ không phải là không hề ghi. Hai chuyện ấy chữa bằng hai cách khác nhau.

@@ -1,0 +1,9 @@
+# Nhật ký thô của năm buổi trước không nộp. Nó có thể mang dữ liệu bạn không muốn
+# đẩy lên, và mục 7.5 của giáo trình bàn đúng cái cân nhắc ấy. Khung thư mục vẫn
+# được giữ để lệnh nap-nhat-ky có chỗ đổ.
+nhat-ky/*/
+!nhat-ky/.gitkeep
+
+__pycache__/
+.pytest_cache/
+*.bak

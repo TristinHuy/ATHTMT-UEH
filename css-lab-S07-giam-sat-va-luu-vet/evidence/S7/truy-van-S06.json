@@ -1,0 +1,9 @@
+{
+  "nhan": "S06",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S06\"} |= \"enforce\"",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:15:50+0700",
+  "so_dong_khop": 0,
+  "dong": [],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

@@ -1,0 +1,19 @@
+{
+  "FN": 0,
+  "FP": 2,
+  "TN": 46,
+  "TP": 12,
+  "bat_nham": [
+    "E012",
+    "E057"
+  ],
+  "bo_sot": [],
+  "dieu_kien": "bi_tu_choi and loi_xac_thuc and not tham_do_suc_khoe",
+  "do_chinh_xac": 0.8571,
+  "do_phu": 1.0,
+  "sinh_boi": "bin/do-chinh-xac.py",
+  "tap_co_nhan": "nhan\\tap-co-nhan.jsonl",
+  "tep_quy_tac": "sigma\\quy-tac.yml",
+  "tieu_de_quy_tac": "Phat hien that bai xac thuc cua chu the thuc",
+  "tong_ban_ghi": 60
+}

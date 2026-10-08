@@ -1,0 +1,21 @@
+{
+  "nhan": "S04",
+  "truy_van": "{job=\"nhat-ky-lab\", buoi=\"S04\"} |= \"public.nhan_su\" |= \"tong_luong\"",
+  "cua_so_gio": 2160,
+  "hoi_luc": "2026-10-08T16:15:50+0700",
+  "so_dong_khop": 1,
+  "dong": [
+    {
+      "thoi_diem_nano": "1791450753162487328",
+      "noi_dung": "2026-10-01 07:37:31.134 GMT [58] bao_cao@css_s04 LOG:  AUDIT: OBJECT,1,1,READ,SELECT,TABLE,public.nhan_su,\"SELECT bo_mon, so_nguoi, tong_luong FROM thong_ke_bo_mon ORDER BY bo_mon\",<not logged>",
+      "nhan_dong": {
+        "buoi": "S04",
+        "detected_level": "unknown",
+        "filename": "/nhat-ky/S04/pgaudit.log",
+        "job": "nhat-ky-lab",
+        "service_name": "nhat-ky-lab"
+      }
+    }
+  ],
+  "ghi_chu": "Chỉ 50 dòng đầu được giữ lại, con số so_dong_khop là con số đầy đủ."
+}

@@ -1,0 +1,10 @@
+dau rieng          : xoa-vet-e58e45ba30ed
+da gieo vao nguon  : nhat-ky/S07/thu-nghiem-xoa-vet.log
+loki da nhan sau   : 2.049 giay
+da cat cut tep nguon: kich thuoc con 0 byte
+tim lai o loki     : CON
+
+Doc ket qua nay theo dung mot cach. Dong chu song sot khong phai vi Loki
+manh, ma vi no da roi khoi mien tin cay noi no sinh ra truoc luc bi xoa.
+Truoc moc 2.049 giay, cung mot lenh xoa se lam mat han dong chu ay.
+Do la be rong cua khoang nguy hiem, va rut ngan no la viec cua chang chuyen.

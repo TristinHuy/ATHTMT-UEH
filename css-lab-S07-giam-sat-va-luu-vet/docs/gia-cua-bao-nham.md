@@ -1,0 +1,3 @@
+Trong tập đo 24 giờ, quy tắc tạo 2 báo nhầm: E012 và E057, đều do dịch vụ sao-luu-dem thử lại bằng thẻ cũ rồi thành công. Tôi đo thời gian phân loại lần lượt là 20 giây và 26,87 giây. Với hai báo nhầm mỗi ngày, công xử lý là (20 + 26,87) / 60 = 0,78 phút mỗi ngày, xấp xỉ 47 giây. Đây là ước tính theo tần suất của tập đo; nếu tần suất hoặc thời gian xử lý thay đổi thì chi phí thực tế cũng đổi.
+
+Nếu chỉ giữ nhật ký 7 ngày thay vì 90 ngày, câu hỏi S02 về lần tiến trình có uid thường nhưng euid bằng 0 sau khi dùng tệp setuid sẽ không còn trả lời được: bằng chứng có dấu thời gian ngày 22/9, đã cũ hơn 7 ngày tại thời điểm kiểm tra 8/10, nhưng vẫn nằm trong cửa sổ 90 ngày. Giữ lâu hơn giúp truy vấn lịch sử, đổi lại Loki phải lưu trữ và bảo vệ dữ liệu lâu hơn.

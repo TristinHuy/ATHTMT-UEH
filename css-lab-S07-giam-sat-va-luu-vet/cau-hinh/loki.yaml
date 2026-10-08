@@ -1,0 +1,65 @@
+# Cấu hình Loki cho lab S7. Bản một tiến trình, lưu trên hệ tệp, không cần thứ gì
+# bên ngoài mạng compose.
+#
+# CHƯA XÁC MINH TRÊN MÁY SOẠN BÀI. Máy soạn không kéo được ảnh nên không chạy thử
+# được tệp này với Loki 3.5.1. Nó viết theo bản cấu hình một tiến trình trong tài
+# liệu Loki. Nếu Loki từ chối một khóa nào, đọc thông điệp lỗi của chính nó rồi
+# sửa, và ghi lại chỗ sửa vào docs/duong-di-nhat-ky.md; đó là một quan sát đáng
+# ghi chứ không phải một phiền toái.
+#
+# Hai chỗ trong tệp này là nội dung bài học, không phải cấu hình cho chạy được.
+#
+# Thứ nhất, auth_enabled tắt. Nghĩa là bất cứ ai gọi được cổng 3100 đều ghi được
+# vào kho nhật ký. Ranh giới duy nhất đang giữ kho này là ranh giới mạng: Loki
+# không ánh xạ cổng nào ra máy thật. Ngoài lớp học, một lớp phòng thủ duy nhất là
+# chưa đủ, và đó chính là nguyên lý thứ ba.
+#
+# Thứ hai, hạn giữ. Con số dưới đây quyết định câu hỏi nào trong bảng năm sự kiện
+# còn trả lời được. Giữ ngắn thì rẻ và mất câu trả lời; giữ dài thì tốn và tăng
+# lượng dữ liệu cá nhân bạn phải chịu trách nhiệm. Đó là nguyên lý thứ bảy hiện
+# ra dưới dạng một dòng cấu hình, và mục 7.5 của giáo trình bàn thẳng chỗ này.
+
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+  grpc_listen_port: 9096
+  log_level: info
+
+common:
+  instance_addr: 127.0.0.1
+  path_prefix: /loki
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+  replication_factor: 1
+  ring:
+    kvstore:
+      store: inmemory
+
+schema_config:
+  configs:
+    - from: 2024-04-01
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+limits_config:
+  # Nhật ký của các buổi trước mang dấu thời gian của những ngày trước, nên cửa
+  # sổ nhận phải đủ rộng để Loki không từ chối chúng vì quá cũ. Đây là chỗ sinh
+  # viên hay mắc kẹt đầu tiên: dữ liệu nạp vào mà truy vấn không thấy gì.
+  reject_old_samples: false
+  max_query_lookback: 0s
+  max_query_length: 90d
+  volume_enabled: true
+  retention_period: 90d
+
+compactor:
+  working_directory: /loki/compactor
+  compaction_interval: 10m
+  retention_enabled: true
+  delete_request_store: filesystem
